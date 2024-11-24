@@ -1,0 +1,13 @@
+﻿@* @model Ap.Models.Applicants
+
+<div>
+    <h5>Applicant Information</h5>
+    <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
+    <p><strong>Batch:</strong> @Model.Batch?.BatchName ?? "No Batch Assigned"</p>
+    <p><strong>Barangay:</strong> @Model.Barangay</p>
+    <p><strong>Approved:</strong> @(Model.Approved ? "Yes" : "No")</p>
+    <p><strong>Occupation:</strong> @Model.Occupation</p>
+    <p><strong>Contact No:</strong> @Model.ContactNo</p>
+    <!-- Add more details as needed -->
+</div>
+ *@

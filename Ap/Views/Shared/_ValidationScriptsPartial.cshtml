@@ -1,0 +1,28 @@
+﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<script>
+    function calculateAge() {
+        var birthdate = document.querySelector('input[name="Birthdate"]').value;
+        if (birthdate) {
+            var birthdateObj = new Date(birthdate);
+            var diff = Date.now() - birthdateObj.getTime();
+            var ageDt = new Date(diff);
+            var age = Math.abs(ageDt.getUTCFullYear() - 1970);
+            document.querySelector('input[name="Age"]').value = age;
+        }
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var modals = document.querySelectorAll('.modal');
+        modals.forEach(function (modal) {
+            modal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var recipient = button.getAttribute('data-bs-whatever');
+            });
+        });
+    });
+</script>

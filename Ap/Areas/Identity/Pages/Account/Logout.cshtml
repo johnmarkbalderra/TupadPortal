@@ -1,0 +1,16 @@
+﻿@page
+@model LogoutModel
+
+<!-- Automatically submit the logout form using JavaScript -->
+@section Scripts {
+    <script type="text/javascript">
+        window.onload = function () {
+            document.getElementById('logoutForm').submit();
+        };
+    </script>
+}
+
+<!-- Hidden form to trigger logout -->
+<form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Login", new { area = "Identity" })" method="post" style="display:none;">
+    <input type="submit" />
+</form>
