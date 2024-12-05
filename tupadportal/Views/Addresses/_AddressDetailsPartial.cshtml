@@ -1,0 +1,19 @@
+﻿@model tupadportal.Models.Address
+
+<table class="table table-bordered table-hover">
+    <thead class="table-secondary">
+        <tr>
+            <th>Batch Name</th>
+            <th>Applicants / Slots</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var batch in Model.Batches)
+        {
+            <tr>
+                <td>@batch.BatchName</td>
+                <td>@batch.Applicants.Count() / @batch.Slot</td>
+            </tr>
+        }
+    </tbody>
+</table>

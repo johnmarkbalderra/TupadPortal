@@ -1,0 +1,28 @@
+﻿@model tupadportal.Models.Applicants
+
+@{
+    ViewData["Title"] = "Applicant Details";
+}
+
+<div class="row my-5">
+    <div class="col-md-8 mx-auto rounded border p-5 shadow">
+        <h2 class="text-decoration-underline">Applicant Details</h2>
+        <div class="mb-3">
+            <label>Name</label>
+            <div>@Model.FirstName @Model.LastName</div>
+        </div>
+        <div class="mb-3">
+            <label>Barangay</label>
+            <div>@Model.Barangay</div>
+        </div>
+        <div class="mb-3">
+            <label>Municipality</label>
+            <div>@Model.Municipality</div>
+        </div>
+        <div class="mb-3">
+            <label>Approved</label>
+            <div>@Model.Approved ? "Yes" : "No"</div>
+        </div>
+        <a class="btn btn-primary" asp-controller="Addresses" asp-action="ListApplicants" asp-route-barangay="@Model.Barangay" asp-route-municipality="@Model.Municipality">Back to List</a>
+    </div>
+</div>

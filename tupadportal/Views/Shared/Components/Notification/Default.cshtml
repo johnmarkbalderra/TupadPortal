@@ -1,0 +1,18 @@
+﻿@model int
+
+@if (Model > 0)
+{
+    <li class="nav-item">
+        <a class="nav-link text-black btn btn-sm" asp-controller="Announcements" asp-action="Index">
+            <i class="bi bi-bell"></i>Notification <span class="badge bg-danger">@Model</span>
+        </a>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-black  btn btn-sm" asp-controller="Announcements" asp-action="Index">
+            <i class="bi bi-bell"></i> Notification
+        </a>
+    </li>
+}

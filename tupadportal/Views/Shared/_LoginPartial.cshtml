@@ -1,0 +1,143 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using tupadportal.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    string userRole = "User"; // Default role if none is found
+    if (SignInManager.IsSignedIn(User))
+    {
+        var user = await UserManager.GetUserAsync(User);
+        var roles = await UserManager.GetRolesAsync(user);
+        if (roles.Count > 0)
+        {
+            userRole = roles[0]; // Get the first role. Adjust if you need to handle multiple roles.
+        }
+    }
+}
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        if (User.IsInRole("admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-black btn btn-sm btn d-flex align-items-center" asp-controller="AdminAttendances" asp-action="Index">
+                    <i class="bi bi-calendar-check me-2"></i> Attendance
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black btn btn-sm btn d-flex align-items-center" asp-controller="AdminApplicants" asp-action="Index">
+                    <i class="bi bi-person-fill-check me-2"></i> Applicant
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black btn btn-sm btn d-flex align-items-center" asp-controller="AdminAnnouncements" asp-action="Index">
+                    <i class="bi bi-megaphone-fill me-2"></i> Announcement
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-black btn btn-sm btn d-flex align-items-center" asp-controller="Batches" asp-action="Index">
+                    <i class="bi bi-box-seam me-2"></i> Batches
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black btn btn-sm btn d-flex align-items-center" asp-controller="Addresses" asp-action="Index">
+                    <i class="bi bi-house-fill me-2"></i> Barangay
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <!-- Display dropdown toggle as a button on small devices -->
+                <button class="btn btn-sm btn-link nav-link dropdown-toggle text-dark d-sm-none d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle me-2"></i> @userRole
+                </button>
+                <!-- Display dropdown toggle as a link on medium and larger devices -->
+                <a class="nav-link btn-sm dropdown-toggle text-dark d-none d-sm-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle me-2"></i> @userRole
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" asp-area="Identity" asp-page="/Account/Manage/Index">
+                            <i class="bi bi-person-circle me-2"></i> Profile
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" asp-controller="User" asp-action="Index">
+                            <i class="bi bi-people-fill me-2"></i> Users
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" asp-area="Identity" asp-page="/Account/Logout">
+                            <i class="bi bi-box-arrow-right me-2"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        }
+        else if (User.IsInRole("brgy"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-black btn btn-sm btn d-flex align-items-center" asp-controller="Applicants" asp-action="Index">
+                    <i class="bi bi-person-fill me-2"></i> Applicant
+                </a>
+            </li>
+
+            <li class="d-flex align-items-center">
+
+                @await Component.InvokeAsync("Notification")
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black btn btn-sm btn d-flex align-items-center" asp-controller="Attendances" asp-action="Index">
+                    <i class="bi bi-calendar-check-fill me-2"></i> Attendance
+                </a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <!-- Display dropdown toggle as a button on small devices -->
+                <button class="btn btn-sm btn-link nav-link dropdown-toggle text-dark d-sm-none d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle me-2"></i> @userRole
+                </button>
+                <!-- Display dropdown toggle as a link on medium and larger devices -->
+                <a class="nav-link btn-sm dropdown-toggle text-dark d-none d-sm-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle me-2"></i> @userRole
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" asp-area="Identity" asp-page="/Account/Manage/Index">
+                            <i class="bi bi-person-circle me-2"></i> Profile
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" asp-area="Identity" asp-page="/Account/Logout">
+                            <i class="bi bi-box-arrow-right me-2"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        }
+
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark btn btn-sm btn d-flex align-items-center" id="register" asp-area="Identity" asp-page="/Account/Register">
+                <i class="bi bi-pencil-square me-2"></i> Register
+            </a>
+        </li>
+        <br />
+        <!--<li class="nav-item">
+            <a class="nav-link text-dark btn btn-sm btn-outline-info" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>-->
+        <!--<li class="nav-item">
+            <a class="nav-link text-dark btn btn-sm" asp-area="Identity" asp-page="/Account/AdminLogin">Admin Login</a>
+        </li>-->
+        <li class="nav-item">
+            <a class="nav-link text-dark btn btn-sm btn d-flex align-items-center" asp-area="Identity" asp-page="/Account/Login">
+                <i class="bi bi-box-arrow-in-right me-2"></i> Login
+            </a>
+        </li>
+    }
+</ul>

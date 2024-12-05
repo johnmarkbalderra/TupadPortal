@@ -1,0 +1,221 @@
+﻿@page
+@model tupadportal.Areas.Identity.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+<style>
+    /* Floating label container */
+    .floating-label-group {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+
+        /* Styling the input and select fields */
+        .floating-label-group input,
+        .floating-label-group select {
+            border: none;
+            border-bottom: 1px solid #ccc;
+            outline: none;
+            border-radius: 0;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            transition: border-bottom-color 0.3s ease;
+        }
+
+            /* Add a transition for the border-bottom (fading line effect) */
+            .floating-label-group input:focus,
+            .floating-label-group input:not(:placeholder-shown),
+            .floating-label-group select:focus,
+            .floating-label-group select:not([value=""]) {
+                border-bottom-color: #007bff; /* The line fades in when focused or filled */
+            }
+
+        /* Initially hide the label inside the input */
+        .floating-label-group label {
+            position: absolute;
+            top: 0;
+            left: 10px;
+            color: #999;
+            font-size: 16px;
+            padding: 10px;
+            transition: 0.2s ease all;
+            pointer-events: none;
+        }
+
+        /* When the input is focused or contains text, move the label to the top */
+        .floating-label-group input:focus ~ label,
+        .floating-label-group input:not(:placeholder-shown) ~ label,
+        .floating-label-group select:focus ~ label,
+        .floating-label-group select:not([value=""]) ~ label {
+            top: -20px;
+            left: 5px;
+            font-size: 12px;
+            color: #007bff; /* Change label color when floating */
+        }
+
+        /* Extra focus effect for the bottom border */
+        .floating-label-group input:focus,
+        .floating-label-group select:focus {
+            border-bottom-width: 2px;
+            border-bottom-color: #007bff; /* Faded line color */
+        }
+
+        /* Add a slight glow effect on focus */
+        .floating-label-group input:focus {
+            box-shadow: 0 1px 0 0 #007bff;
+        }
+</style>
+
+
+<div class="row my-5">
+    <div class="col-lg-9 mx-auto rounded border p-5 shadow">
+        <h2 class="text-center mb-3">
+            <img src="~/img/tupad.jpg" alt="Logo" style="height:50px; width:50px;margin-right:10px;">
+            Register
+        </h2>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <br />
+
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="floating-label-group">
+                        <input class="form-control" asp-for="Input.FirstName" placeholder=" " />
+                        <label>First Name</label>
+                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="floating-label-group">
+                        <input class="form-control" asp-for="Input.LastName" placeholder=" " />
+                        <label>Last Name</label>
+                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="floating-label-group">
+                        <input class="form-control" asp-for="Input.Email" placeholder=" " />
+                        <label>Email</label>
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="floating-label-group">
+                        <input class="form-control" asp-for="Input.Phone" placeholder=" " />
+                        <label>Phone</label>
+                        <span asp-validation-for="Input.Phone" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="floating-label-group">
+                        <input class="form-control" asp-for="Input.Position" placeholder=" " />
+                        <label>Position</label>
+                        <span asp-validation-for="Input.Position" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="floating-label-group">
+                        <select asp-for="Input.Barangay" class="form-control">
+                            <option value="">Select Barangay</option>
+                            @foreach (var barangay in Model.Barangays)
+                            {
+                                <option value="@barangay.Value">@barangay.Text</option>
+                            }
+                        </select>
+                        <label>Barangay</label>
+                        <span asp-validation-for="Input.Barangay" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hidden Municipality Field -->
+            <input type="hidden" asp-for="Input.Municipality" id="municipalityInput" />
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="floating-label-group">
+                        <input class="form-control" asp-for="Input.Password" type="password" placeholder=" " id="password" />
+                        <label>Password</label>
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="floating-label-group">
+                        <input class="form-control" asp-for="Input.ConfirmPassword" type="password" placeholder=" " id="confirmPassword" />
+                        <label>Confirm Password</label>
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-outline-secondary" id="togglePasswords">
+                        <i class="bi bi-eye"></i> Show
+                    </button>
+                </div>
+            </div>
+
+            <div class="row mb-6">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+            </div>
+
+
+        </form>
+        <hr />
+        <div class="text-center">
+            <p>Already have an account? <a asp-page="/Account/Login" asp-route-returnUrl="@Model.ReturnUrl">Login</a></p>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Automatically set the municipality input value and keep it hidden
+        document.getElementById("municipalityInput").value = "San Pablo City";
+
+                // Ensure labels float correctly on load
+                document.querySelectorAll('.floating-label-group input, .floating-label-group select').forEach(input => {
+                    input.addEventListener('blur', function () {
+                        if (this.value) {
+                            this.classList.add('has-content');
+                        } else {
+                            this.classList.remove('has-content');
+                        }
+                    });
+
+                    // Ensure label is floated when there is value preloaded in the input (e.g., from autofill)
+                    if (input.value) {
+                        input.classList.add('has-content');
+                    }
+                });
+
+                // Toggle password visibility for both Password and Confirm Password fields
+                document.getElementById("togglePasswords").addEventListener("click", function () {
+                    const passwordInput = document.getElementById("password");
+                    const confirmPasswordInput = document.getElementById("confirmPassword");
+
+                    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+                    passwordInput.setAttribute("type", type);
+                    confirmPasswordInput.setAttribute("type", type);
+
+                    const button = this;
+                    const icon = button.querySelector("i");
+
+                    if (type === "text") {
+                        icon.classList.remove("bi-eye");
+                        icon.classList.add("bi-eye-slash");
+                        button.innerHTML = '<i class="bi bi-eye-slash"></i> Hide Passwords';
+                    } else {
+                        icon.classList.remove("bi-eye-slash");
+                        icon.classList.add("bi-eye");
+                        button.innerHTML = '<i class="bi bi-eye"></i> Show Passwords';
+                    }
+                });
+    </script>
+}

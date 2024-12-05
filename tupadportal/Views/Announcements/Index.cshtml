@@ -1,0 +1,121 @@
+﻿@model IEnumerable<tupadportal.Models.Announcement>
+
+@{
+    ViewData["Title"] = "Announcements";
+}
+
+<!-- Include Bootstrap Icons CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<div class="row my-5">
+    <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
+        <!-- Flexbox to align the title to the left and buttons to the right -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-start">Announcements List</h2>
+        </div>
+        <hr />
+
+        <!-- Responsive Table for Announcements List -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th> <!-- New Date Column -->
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <h5 class="text-black clickable" data-bs-toggle="modal" data-bs-target="#detailsModal" data-id="@item.AnnouncementsId">
+                                    <i class="bi bi-info-circle me-2"></i>@item.Title
+                                    @if (!item.Read)
+                                    {
+                                        <span class="badge bg-danger ms-2">New</span>
+                                    }
+                                </h5>
+                            </td>
+                            <td>
+                                <!-- Display the announcement date -->
+                                @item.CreatedDate.ToString("MMM dd, yyyy") <!-- Display date in the desired format -->
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Details Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title">Announcement Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Details will be loaded here via AJAX -->
+                <div id="detailsContent">
+                    <p>Loading...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @* <!-- Edit Button with Icon -->
+                <button id="editButton" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">
+                    <i class="bi bi-pencil me-2"></i>Edit
+                </button>
+                <!-- Delete Button with Icon -->
+                <button id="deleteButton" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <i class="bi bi-trash me-2"></i>Delete
+                </button> *@
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+            document.addEventListener('DOMContentLoaded', function () {
+        var detailsModal = document.getElementById('detailsModal');
+        detailsModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var announcementId = button.getAttribute('data-id');
+            var detailsContent = detailsModal.querySelector('#detailsContent');
+
+                    // Fetch announcement details via AJAX
+            fetch('@Url.Action("Details", "Announcements")/' + announcementId, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+            .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                        }
+                    throw new Error('Network response was not ok.');
+                    })
+                .then(html => {
+                    detailsContent.innerHTML = html;
+                    })
+                .catch(error => {
+                    detailsContent.innerHTML = '<p class="text-danger">Error loading announcement details.</p>';
+                    console.error('There was a problem with the fetch operation:', error);
+                    });
+                });
+
+                // Refresh the page after closing the modal
+        detailsModal.addEventListener('hidden.bs.modal', function () {
+            location.reload();  // Refresh the page to update read status
+        });
+            });
+    </script>
+}
+

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<tupadportal.Models.Applicants>
+
+@{
+    ViewData["Title"] = "Applicants List";
+    string barangay = ViewBag.Barangay as string;
+    string municipality = ViewBag.Municipality as string;
+}
+
+<div class="row my-5">
+    <div class="col-md-10 mx-auto rounded border p-5 shadow">
+        <a class="btn btn-outline-primary" asp-controller="Addresses" asp-action="Index">Back to Address</a>
+        <h2 class="text-decoration-underline">@barangay @* @municipality *@ Applicants</h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Barangay</th>
+                    <th>Municipality</th>
+                    <th>Approved</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var applicant in Model)
+                {
+                    <tr>
+                        <td>@applicant.FirstName @applicant.LastName</td>
+                        <td>@applicant.Barangay</td>
+                        <td>@applicant.Municipality</td>
+                        <td>@* @applicant.Approved ? "Yes" : "No" *@@Html.DisplayFor(modelItem => @applicant.Approved)</td>
+                        <td>
+                            <a class="btn btn-outline-info" asp-action="ApplicantDetails" asp-route-id="@applicant.ApplicantId">Details</a>
+                            @if (applicant.Approved)
+                            {
+                                <form asp-action="Disapprove" asp-route-id="@applicant.ApplicantId" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-warning">Disapprove</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="Approve" asp-route-id="@applicant.ApplicantId" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-success">Approve</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

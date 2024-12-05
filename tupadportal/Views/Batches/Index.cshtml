@@ -1,0 +1,140 @@
+﻿@model IEnumerable<tupadportal.Models.Batch>
+
+@{
+    ViewData["Title"] = "Batch List";
+}
+<!-- SweetAlert2 CSS (already included) -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+<div class="row my-5">
+    <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
+        <!-- Add Batch Button aligned to the right -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-decoration-underline">Batch List</h2>
+            <!-- Barangay Filter and Add Batch Button -->
+            <div class="d-flex align-items-center">
+                <form method="get" asp-action="Index" class="d-flex align-items-center me-3">
+                    <select name="barangayId" class="form-select form-select-sm me-2" asp-items="ViewBag.BarangayId" onchange="this.form.submit()">
+                        <option value="0">All Barangays</option> <!-- Ensure value is set to 0 for "All Barangays" -->
+                    </select>
+                </form>
+                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#createModal">
+                    <i class="bi bi-plus-circle me-1"></i> Add Batch
+                </button>
+            </div>
+        </div>
+        <hr />
+
+        <!-- Responsive Table for Batch List -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Batch Name</th>
+                        <th scope="col">Date & Time</th>
+                        <th>Slots</th>
+                        <th scope="col">Barangay</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.BatchName)</td>
+                            <td>@item.DateTime.ToString("MM/dd/yyyy HH:mm")</td>
+                            <td>@(item.Applicants?.Count() ?? 0) / @item.Slot</td>
+                            <td>@Html.DisplayFor(modelItem => item.Address.Barangay)</td>
+                            <td>
+                                <div class="d-flex gap-3">
+                                    <button class="btn btn-info btn-sm edit-button" data-id="@item.BatId">
+                                        <i class="bi bi-pencil-square me-1"></i> Add Slot
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Create Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- The Create Partial View will be loaded here -->
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- The Edit Partial View will be loaded here -->
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Handle Create Modal Show Event
+            $('#createModal').on('show.bs.modal', function (e) {
+                var modal = $(this);
+                $.ajax({
+                    url: '@Url.Action("Create", "Batches")',
+                    type: 'GET',
+                    success: function (data) {
+                        modal.find('.modal-content').html(data);
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Failed to load create form.'
+                        });
+                    }
+                });
+            });
+
+            // Handle Edit Button Click
+            $('.edit-button').click(function () {
+                var id = $(this).data('id');
+                var modal = $('#editModal');
+                $.ajax({
+                    url: '@Url.Action("Edit", "Batches")/' + id,
+                    type: 'GET',
+                    success: function (data) {
+                        modal.find('.modal-content').html(data);
+                        modal.modal('show');
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Failed to load edit form.'
+                        });
+                    }
+                });
+            });
+
+            // Handle Success Messages from TempData
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                        Swal.fire({
+                            icon: 'success',
+                        title: 'Success',
+                        text: '@TempData["SuccessMessage"]'
+                                    });
+            </text>
+        }
+                });
+    </script>
+}

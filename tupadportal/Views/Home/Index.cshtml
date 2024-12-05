@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Tupad";
+}
+
+@using Microsoft.AspNetCore.Identity
+@using tupadportal.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject Microsoft.AspNetCore.Mvc.IUrlHelper UrlHelper
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = await UserManager.GetUserAsync(User);
+    var roles = await UserManager.GetRolesAsync(user);
+
+    if (roles.Contains("admin"))
+    {
+        Context.Response.Redirect(Url.Action("Index", "Addresses"));
+    }
+    else if (roles.Contains("brgy"))
+    {
+        Context.Response.Redirect(Url.Action("Index", "Applicants"));
+    }
+
+
+}
+else
+{
+    <div class="row my-5">
+        <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
+            <div class="text-center fw-bold">
+                <h1 class="display-4 underline">Welcome to TUPAD Portal</h1>
+            </div>
+            <br />
+
+
+            <div class="row justify-content-center">
+                <div class="text-center col-12">
+                    <h3 class="my-4 display-5 fw-light">
+                        Tulong Panghanapbuhay sa Ating Disadvantaged
+                        /Displaced Workers.
+                    </h3>
+                    <br />
+                    <p class="my-5 fst-italic">
+                        TUPAD is a community-based package of assistance that provides emergency employment for displaced workers,
+                        underemployed and seasonal workers, for a minimum period of 10 days, but not to exceed a maximum of 30 days,
+                        depending on the nature of work to be performed
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

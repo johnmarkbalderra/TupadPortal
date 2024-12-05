@@ -1,0 +1,39 @@
+﻿@model tupadportal.Models.Announcement
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="AnnouncementsId" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    @* <div class="form-check mb-3">
+        <input class="form-check-input" asp-for="Read" />
+        <label class="form-check-label" asp-for="Read"></label>
+    </div> *@
+    <div class="mb-3">
+        <label asp-for="AddressId" class="form-label"></label>
+        <select asp-for="AddressId" class="form-select" asp-items="ViewBag.AddressId"></select>
+        <span asp-validation-for="AddressId" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CreatedDate" class="form-label"></label>
+        <input asp-for="CreatedDate" class="form-control" />
+        <span asp-validation-for="CreatedDate" class="text-danger"></span>
+    </div>
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-success">Save Changes</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

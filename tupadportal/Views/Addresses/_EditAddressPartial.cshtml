@@ -1,0 +1,24 @@
+﻿@model tupadportal.Models.Address
+
+<form data-ajax-form method="post" asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Add_Id" />
+    <div class="mb-3">
+        <label asp-for="Barangay" class="form-label"></label>
+        <input asp-for="Barangay" class="form-control" readonly />
+        <span asp-validation-for="Barangay" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Municipality" class="form-label"></label>
+        <input asp-for="Municipality" class="form-control" readonly />
+        <span asp-validation-for="Municipality" class="text-danger"></span>
+    </div>
+    @* <div class="mb-3">
+        <label asp-for="Slot" class="form-label"></label>
+        <input asp-for="Slot" class="form-control" />
+        <span asp-validation-for="Slot" class="text-danger"></span>
+    </div> *@
+    <div class="d-flex justify-content-end mt-4">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>

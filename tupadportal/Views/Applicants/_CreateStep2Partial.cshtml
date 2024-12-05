@@ -1,0 +1,97 @@
+﻿@model tupadportal.ViewModels.Step2ViewModel
+@{
+    Layout = null;
+}
+
+<div class="modal-header">
+    <h5 class="modal-title">Contact Information - Step 2</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form id="step2Form">
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <!-- Barangay Input -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Barangay"></label>
+                    <input asp-for="Barangay" class="form-control" readonly />
+                    <span asp-validation-for="Barangay" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Hidden AddressId Input -->
+            <input type="hidden" asp-for="AddressId" />
+
+            <!-- Municipality Input -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Municipality"></label>
+                    <input asp-for="Municipality" class="form-control" value="San Pablo" readonly />
+                    <span asp-validation-for="Municipality" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Row -->
+        <div class="row">
+            <!-- ContactNo Input -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="ContactNo"></label>
+                    <input asp-for="ContactNo" class="form-control" placeholder="Enter Contact Number" />
+                    <span asp-validation-for="ContactNo" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- IdType Dropdown -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="IdType"></label>
+                    <select asp-for="IdType" class="form-control">
+                        <option value="">Select ID Type</option>
+                        <option>Voters Id</option>
+                        <option>Postal Id</option>
+                        <option>Unified Multi Purpose ID</option>
+                        <option>PhilHealth Id</option>
+                        <option>Pag-IBIG ID</option>
+                        <option>PhilSys Id</option>
+                        <option>Senior Citizens ID</option>
+                        <option>Passport</option>
+                        <option>ID Card by LTO</option>
+                        <option>Barangay ID</option>
+                        <option>Other</option>
+                    </select>
+                    <span asp-validation-for="IdType" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- IdNumber Input -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="IdNumber"></label>
+                    <input asp-for="IdNumber" class="form-control" placeholder="Enter ID Number" />
+                    <span asp-validation-for="IdNumber" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" onclick="loadStep(1)">Back</button>
+    <button type="button" class="btn btn-primary" onclick="submitStep2()">Next</button>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // If you need to update Barangay based on AddressId selection
+        $(document).on('change', '[asp-for="AddressId"]', function () {
+            var selectedText = $(this).find("option:selected").text();
+            $('[asp-for="Barangay"]').val(selectedText);
+        });
+    </script>
+}

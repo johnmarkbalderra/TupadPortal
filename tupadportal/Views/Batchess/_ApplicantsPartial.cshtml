@@ -1,0 +1,115 @@
+﻿@model IEnumerable<tupadportal.Models.Applicants>
+@{
+    // Get distinct Barangays from the applicants
+    var barangays = Model.Select(a => a.Address?.Barangay).Distinct().Where(b => !string.IsNullOrEmpty(b)).ToList();
+}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="applicantsModalLabel">Applicants</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Filter Bar -->
+            @* <div class="col-md-3">
+                <h6>Filter by Barangay</h6>
+                <select id="barangayFilter" class="form-select mb-3">
+                    <option value="">All Barangays</option>
+                    @foreach (var barangay in barangays)
+                    {
+                        <option value="@barangay">@barangay</option>
+                    }
+                </select>
+            </div> *@
+            <!-- Applicants Table -->
+            <div class="col-md-12">
+                @if (!Model.Any())
+                {
+                    <p>No applicants found for this batch.</p>
+                }
+                else
+                {
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Name</th>
+                                @* <th>Barangay</th>
+                            <th>Municipality</th> *@
+                                <th>Approved</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var applicant in Model)
+                            {
+                                <tr>
+                                    <td>@applicant.FirstName @applicant.LastName</td>
+                                    @* <td>@applicant.Address?.Barangay</td>
+                            <td>@applicant.Address?.Municipality</td> *@
+                                    <td>
+                                        @if (applicant.Approved)
+                                        {
+                                            <span class="badge bg-success">Yes</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">No</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <!-- Details Button with Icon -->
+                                        <button class="btn btn-outline-info btn-sm d-flex align-items-center mb-1 details-button" data-applicant-id="@applicant.ApplicantId">
+                                            <i class="bi bi-info-circle me-2" aria-hidden="true"></i> Details
+                                        </button>
+
+                                        @if (applicant.Approved)
+                                        {
+                                            <!-- Disapprove Button with Icon and Spinner -->
+                                            <form data-ajax-form="true" asp-action="Disapprove" asp-route-id="@applicant.ApplicantId" method="post" style="display:inline;">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-warning btn-sm d-flex align-items-center" aria-label="Disapprove">
+                                                    <i class="bi bi-x-circle me-2" aria-hidden="true"></i>
+                                                    Disapprove
+                                                    <!-- Spinner -->
+                                                    <span class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <!-- Approve Button with Icon and Spinner -->
+                                            <form data-ajax-form="true" asp-action="Approve" asp-route-id="@applicant.ApplicantId" method="post" style="display:inline;">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-success btn-sm d-flex align-items-center" aria-label="Approve">
+                                                    <i class="bi bi-check-circle me-2" aria-hidden="true"></i>
+                                                    Approve
+                                                    <!-- Spinner -->
+                                                    <span class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+                                                </button>
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+</div>
+
+<!-- Applicant Details Modal Triggered by Details Button -->
+<!-- This modal can be defined in Index.cshtml or as a separate partial view -->
+@* Include Validation Scripts Partial if needed *@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

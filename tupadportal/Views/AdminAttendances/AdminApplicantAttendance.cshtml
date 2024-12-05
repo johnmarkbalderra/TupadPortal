@@ -1,0 +1,34 @@
+﻿@model IEnumerable<tupadportal.Models.Attendance>
+
+@{
+    ViewData["Title"] = "Attendance Management";
+}
+
+<div class="row my-5">
+    <div class="col-md-12 mx-auto rounded border p-5 shadow">
+        <a class="btn btn-info" asp-action="AttendanceChecklist">Attendance Checklist</a>
+        <h2 class="text-decoration-underline">Attendance</h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Applicant</th>
+                    <th>Date</th>
+                    <th>Time In AM</th>
+                    <th>Time Out AM</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var attendance in Model)
+                {
+                    <tr>
+                        <td>@attendance.Applicant.FirstName</td>
+                        <td>@attendance.Date.ToShortDateString()</td>
+                        <td>@(attendance.TimeInAM.HasValue ? attendance.TimeInAM.Value.ToShortTimeString() : "00:00")</td>
+                         <td>@(attendance.TimeOutAM.HasValue ? attendance.TimeOutAM.Value.ToShortTimeString() : "00:00")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

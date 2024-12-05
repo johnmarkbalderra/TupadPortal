@@ -1,0 +1,40 @@
+﻿@model tupadportal.Models.ApplicationUser
+
+<dl class="row">
+    <dt class="col-sm-4">First Name</dt>
+    <dd class="col-sm-8">@Model.FirstName</dd>
+
+    <dt class="col-sm-4">Last Name</dt>
+    <dd class="col-sm-8">@Model.LastName</dd>
+
+    @* <dt class="col-sm-4">Username</dt>
+    <dd class="col-sm-8">@Model.UserName</dd> *@
+
+    <dt class="col-sm-4">Email</dt>
+    <dd class="col-sm-8">@Model.Email</dd>
+
+    <dt class="col-sm-4">Phone</dt>
+    <dd class="col-sm-8">@Model.Phone</dd>
+
+    <dt class="col-sm-4">Position</dt>
+    <dd class="col-sm-8">@Model.Position</dd>
+
+    @* <dt class="col-sm-4">Role</dt>
+    <dd class="col-sm-8">@Model.Role</dd> *@
+
+    <dt class="col-sm-4">Barangay</dt>
+    <dd class="col-sm-8">@Model.Address?.Barangay</dd>
+
+    <dt class="col-sm-4">Municipality</dt>
+    <dd class="col-sm-8">@Model.Address?.Municipality</dd>
+
+    <dt class="col-sm-4">Status</dt>
+    <dd class="col-sm-8">
+        <span class="@(Model.Active ? "text-success" : "text-danger")">
+            @(Model.Active ? "Activated" : "Not Activated")
+        </span>
+    </dd>
+
+    <dt class="col-sm-4">Date Created</dt>
+    <dd class="col-sm-8">@Model.CreatedAt.ToString("MM/dd/yyyy")</dd>
+</dl>

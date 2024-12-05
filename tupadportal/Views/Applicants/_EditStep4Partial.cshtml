@@ -1,0 +1,41 @@
+﻿@model tupadportal.ViewModels.Step4ViewModel
+@{
+    Layout = null;
+}
+
+<div class="modal-header">
+    <h5 class="modal-title">Edit: Bank Information - Step 4</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form id="editStep4Form">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="ApplicantId" />
+
+        <!-- Bank Account Type -->
+        <div class="form-group">
+            <label asp-for="BankAccountType"></label>
+            <input asp-for="BankAccountType" class="form-control" placeholder="Enter Bank Account Type" />
+            <span asp-validation-for="BankAccountType" class="text-danger"></span>
+        </div>
+
+        <!-- Bank Account Number -->
+        <div class="form-group">
+            <label asp-for="BankAccountNo"></label>
+            <input asp-for="BankAccountNo" class="form-control" placeholder="Enter Bank Account Number (Optional)" />
+            <span asp-validation-for="BankAccountNo" class="text-danger"></span>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" onclick="loadEditStep(3, @Model.ApplicantId)">Back</button>
+    <button type="button" class="btn btn-primary" onclick="submitEditStep4()">Next</button>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

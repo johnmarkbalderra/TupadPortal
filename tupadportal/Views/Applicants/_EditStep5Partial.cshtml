@@ -1,0 +1,48 @@
+﻿@model tupadportal.ViewModels.Step5ViewModel
+@{
+    Layout = null;
+}
+
+<div class="modal-header bg-info">
+    <h5 class="modal-title">Edit: Skills and Training - Step 5</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form id="editStep5Form">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="ApplicantId" />
+
+        <!-- Interested In Skills Training -->
+        <div class="form-group form-check">
+            <input class="form-check-input" asp-for="InterestedInSkillsTraining" />
+            <label class="form-check-label" asp-for="InterestedInSkillsTraining"></label>
+            <span asp-validation-for="InterestedInSkillsTraining" class="text-danger"></span>
+        </div>
+
+        <!-- Skills Training Needed -->
+        <div class="form-group">
+            <label asp-for="SkillsTrainingNeeded"></label>
+            <input asp-for="SkillsTrainingNeeded" class="form-control" placeholder="Enter Skills Training Needed" />
+            <span asp-validation-for="SkillsTrainingNeeded" class="text-danger"></span>
+        </div>
+
+        <!-- BatchId Dropdown -->
+        <div class="form-group">
+            <label asp-for="BatchId"></label>
+            <select asp-for="BatchId" class="form-control" asp-items="ViewBag.BatchId"></select>
+            <span asp-validation-for="BatchId" class="text-danger"></span>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" onclick="loadEditStep(4, @Model.ApplicantId)">Back</button>
+    <button type="button" class="btn btn-primary" onclick="submitEditStep5()">Submit</button>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

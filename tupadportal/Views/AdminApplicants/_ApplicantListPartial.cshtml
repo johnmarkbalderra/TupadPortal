@@ -1,0 +1,54 @@
+﻿@model IEnumerable<tupadportal.Models.Applicants>
+
+<!-- Responsive Table for Applicants List -->
+<div class="table-responsive">
+    <table class="table table-hover">
+        
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.LastName</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.Barangay</td>
+                    <td>
+                        @if (item.Approved)
+                        {
+                            <span class="badge bg-success">Yes</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">No</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <!-- View Details Button -->
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#detailsModal-@item.ApplicantId">
+                                <i class="bi bi-eye"></i> Details
+                            </button>
+
+                            <!-- Approve/Disapprove Buttons -->
+                            @if (!item.Approved)
+                            {
+                                <form asp-action="Approve" asp-route-id="@item.ApplicantId" class="d-inline">
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        <i class="bi bi-check-circle"></i> Approve
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="Disapprove" asp-route-id="@item.ApplicantId" class="d-inline">
+                                    <button type="submit" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-x-circle"></i> Disapprove
+                                    </button>
+                                </form>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

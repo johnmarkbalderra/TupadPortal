@@ -1,0 +1,42 @@
+﻿@model tupadportal.Models.Applicants
+
+<div class="modal-header">
+    <h5 class="modal-title" id="applicantDetailsModalLabel">Applicant Details</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <dl class="row">
+        <dt class="col-sm-4">Full Name</dt>
+        <dd class="col-sm-8">@Model.FirstName @Model.MiddleName @Model.LastName @Model.ExtensionName</dd>
+
+        <dt class="col-sm-4">Birthdate</dt>
+        <dd class="col-sm-8">@Model.Birthdate.ToString("MMMM dd, yyyy")</dd>
+
+        <dt class="col-sm-4">Contact No</dt>
+        <dd class="col-sm-8">@Model.ContactNo</dd>
+
+        <dt class="col-sm-4">Barangay</dt>
+        <dd class="col-sm-8">@Model.Address?.Barangay</dd>
+
+        <dt class="col-sm-4">Municipality</dt>
+        <dd class="col-sm-8">@Model.Address?.Municipality</dd>
+
+        <dt class="col-sm-4">Occupation</dt>
+        <dd class="col-sm-8">@Model.Occupation</dd>
+
+        <dt class="col-sm-4">Approved</dt>
+        <dd class="col-sm-8">
+            @if (Model.Approved)
+            {
+                <span class="badge bg-success">Yes</span>
+            }
+            else
+            {
+                <span class="badge bg-danger">No</span>
+            }
+        </dd>
+    </dl>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+</div>

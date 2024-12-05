@@ -1,0 +1,45 @@
+﻿@model tupadportal.Models.Address
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row my-5">
+    <div class="col-md-10 mx-auto rounded border p-5 shadow glass-effect">
+        <div>
+            <a class="btn btn-info" asp-action="Index">Back to List</a>
+        </div>
+        <h2 class="text-decoration-underline">Address Details</h2>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Barangay)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Barangay)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Municipality)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Municipality)
+        </dd>
+        @* <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Slot)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Slot)
+        </dd> *@
+        <dt class = "col-sm-4">
+            @* @Html.DisplayNameFor(model => model.DateTime) *@Date & Time Added
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.DateTime)
+        </dd>
+    </dl>
+        <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model?.Add_Id">Add Slot</a>
+</div>
+</div>
+</div>
+
+

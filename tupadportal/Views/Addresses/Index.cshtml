@@ -1,0 +1,71 @@
+﻿@model IEnumerable<tupadportal.Models.Address>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row my-5">
+    <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
+        <h2 class="text-decoration-underline d-flex justify-content-between align-items-center">
+            Barangay List
+            <!-- Instant Search Input -->
+            <input class="form-control form-control-sm me-2 w-25" type="search" id="searchQuery" placeholder="Search Address" aria-label="Search">
+        </h2>
+        <hr />
+        <div id="addressList">
+            @Html.Partial("_AddressListPartial", Model)
+        </div>
+    </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title" id="detailsModalLabel">Barangay Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="detailsModalBody">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include SweetAlert2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+@section Scripts {
+    <!-- Include SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // AJAX call to filter addresses on keyup event for search
+        document.getElementById('searchQuery').addEventListener('keyup', function () {
+            let query = this.value;
+            fetch(`/Addresses/Search?searchQuery=${encodeURIComponent(query)}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('addressList').innerHTML = data;
+                })
+                .catch(error => console.error('Error fetching search results:', error));
+        });
+
+        // Load details into the modal
+        $('#detailsModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var addressId = button.data('id'); // Extract info from data-* attributes
+            var modal = $(this);
+            fetch(`/Addresses/GetDetails?addressId=${addressId}`)
+                .then(response => response.text())
+                .then(data => {
+                    modal.find('.modal-body').html(data);
+                })
+                .catch(error => console.error('Error loading details:', error));
+        });
+    </script>
+}

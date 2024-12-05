@@ -1,0 +1,44 @@
+﻿@model tupadportal.Models.Batch
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="row my-5">
+    <div class="col-md-8 mx-auto rounded border p-5 shadow">
+        <div>
+            <a class="btn btn-outline-info" asp-action="Index">Back to List</a>
+        </div>
+        <h2 class="text-decoration-underline">Edit Batch</h2>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BatId" />
+            <div class="form-group">
+                <label asp-for="BatchName" class="control-label">Batch Name</label>
+                <input asp-for="BatchName" class="form-control" />
+                <span asp-validation-for="BatchName" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="DateTime" class="control-label"></label>
+                <input asp-for="DateTime" class="form-control" />
+                <span asp-validation-for="DateTime" class="text-danger"></span>
+            </div> *@
+            @* <div class="form-group">
+                <label asp-for="AddressId" class="control-label"> Address</label>
+                <select asp-for="AddressId" class="form-control" asp-items="ViewBag.AddressId"></select>
+                <span asp-validation-for="AddressId" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

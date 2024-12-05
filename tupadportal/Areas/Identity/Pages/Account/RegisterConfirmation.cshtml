@@ -1,0 +1,18 @@
+﻿@page
+@model tupadportal.Areas.Identity.Pages.Account.RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Registration Confirmation";
+}
+<div class="row my-5">
+    <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
+<h2>Confirm your Email</h2>
+<p>Thank you for registering with the TUPAD Portal. A confirmation link has been sent to <strong>@Model.Email</strong>. Please check your email and click the confirmation link to verify your account.</p>
+
+@* @if (Model.DisplayConfirmAccountLink)
+{
+    <p>
+        For testing purposes, you can confirm your account by <a href="@Model.EmailConfirmationUrl">clicking here</a>.
+    </p>
+} *@
+    </div>
+</div>

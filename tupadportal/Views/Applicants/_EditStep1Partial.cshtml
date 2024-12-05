@@ -1,0 +1,116 @@
+﻿@model tupadportal.ViewModels.Step1ViewModel
+@{
+    Layout = null;
+}
+
+<div class="modal-header bg-info">
+    <h5 class="modal-title">Edit: Personal Information - Step 1</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form id="editStep1Form">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="ApplicantId" />
+
+        <div class="row">
+            <!-- First Name -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="FirstName"></label>
+                    <input asp-for="FirstName" class="form-control" placeholder="Enter First Name" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Middle Name -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="MiddleName"></label>
+                    <input asp-for="MiddleName" class="form-control" placeholder="Enter Middle Name" />
+                    <span asp-validation-for="MiddleName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Last Name -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="LastName"></label>
+                    <input asp-for="LastName" class="form-control" placeholder="Enter Last Name" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Row -->
+        <div class="row">
+            <!-- Extension Name -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="ExtensionName"></label>
+                    <select asp-for="ExtensionName" class="form-control">
+                        <option value="">Select Extension Name</option>
+                        <option value="N/A">N/A</option>
+                        <option value="Junior">Junior</option>
+                        <option value="Senior">Senior</option>
+                        <!-- Add other options as needed -->
+                    </select>
+                    <span asp-validation-for="ExtensionName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Birthdate -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Birthdate"></label>
+                    <input asp-for="Birthdate" class="form-control" type="date" />
+                    <span asp-validation-for="Birthdate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Sex -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Sex"></label>
+                    <select asp-for="Sex" class="form-control">
+                        <option value="">Select Sex</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Others">Prefer not to say</option>
+                    </select>
+                    <span asp-validation-for="Sex" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Third Row -->
+        <div class="row">
+            <!-- Civil Status -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="CivilStatus"></label>
+                    <select asp-for="CivilStatus" class="form-control">
+                        <option value="">Select Civil Status</option>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                        <option value="Widowed">Widowed</option>
+                        <option value="Divorced">Divorced</option>
+                    </select>
+                    <span asp-validation-for="CivilStatus" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <!-- No Back button on the first step -->
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary" onclick="submitEditStep1()">Next</button>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

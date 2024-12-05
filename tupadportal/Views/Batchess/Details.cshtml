@@ -1,0 +1,49 @@
+﻿@model tupadportal.Models.Batch
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row my-5">
+    <div class="col-md-8 mx-auto rounded border p-5 shadow">
+        <div>
+            <a class="btn btn-outline-info" asp-action="Index">Back to List</a>
+        </div>
+        <h2 class="text-decoration-underline">Batch Details</h2>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.BatchName)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.BatchName)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.DateTime)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.DateTime)
+            </dd>
+
+            @* Since Batch no longer has an Address property, we remove that section. If you still need to show barangay information,
+            you can display it from the applicants of this batch, as shown below *@
+            <dt class="col-sm-4">Applicants' Barangays</dt>
+            <dd class="col-sm-8">
+                @if (Model.Applicants != null && Model.Applicants.Any())
+                {
+                    <ul>
+                        @foreach (var applicant in Model.Applicants)
+                        {
+                            <li>@applicant.Barangay</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>No applicants available for this batch.</p>
+                }
+            </dd>
+        </dl>
+        <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model?.BatId">Edit</a>
+    </div>
+</div>

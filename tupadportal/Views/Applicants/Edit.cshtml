@@ -1,0 +1,191 @@
+﻿@model tupadportal.Models.Applicants
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="row my-5">
+    <div class="col-md-10 mx-auto rounded border p-5 shadow">
+        <a class="btn btn-info" asp-action="Index">Back to List</a>
+        <h1 class="text-decoration-underline">Edit Applicant</h1>
+        <hr />
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ApplicantId" />
+
+            <div class="row">
+                <!-- Column 1 -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" placeholder="Enter First Name" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MiddleName" class="control-label"></label>
+                        <input asp-for="MiddleName" class="form-control" placeholder="Enter Middle Name" />
+                        <span asp-validation-for="MiddleName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" placeholder="Enter Last Name" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ExtensionName" class="control-label"></label>
+                        <select asp-for="ExtensionName" class="form-control">
+                            <option value="">Select Extension Name</option>
+                            <option value="Junior">Junior</option>
+                            <option value="Senior">Senior</option>
+                        </select>
+                        <span asp-validation-for="ExtensionName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Birthdate" class="control-label"></label>
+                        <input asp-for="Birthdate" class="form-control" onchange="calculateAge()" placeholder="Select Birthdate" />
+                        <span asp-validation-for="Birthdate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Barangay" class="control-label"></label>
+                        <input asp-for="Barangay" class="form-control" readonly />
+                        <span asp-validation-for="Barangay" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Municipality" class="control-label"></label>
+                        <input asp-for="Municipality" class="form-control" value="San Pablo" readonly />
+                        <span asp-validation-for="Municipality" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdType" class="control-label"></label>
+                        <input asp-for="IdType" class="form-control" placeholder="Enter ID Type (e.g., Driver's License)" />
+                        <span asp-validation-for="IdType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdNumber" class="control-label"></label>
+                        <input asp-for="IdNumber" class="form-control" placeholder="Enter ID Number" />
+                        <span asp-validation-for="IdNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ContactNo" class="control-label"></label>
+                        <input asp-for="ContactNo" class="form-control" placeholder="Enter Contact Number" />
+                        <span asp-validation-for="ContactNo" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Column 3 -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Sex" class="control-label"></label>
+                        <select asp-for="Sex" class="form-control">
+                            <option value="">Select Sex</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                        <span asp-validation-for="Sex" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CivilStatus" class="control-label"></label>
+                        <select asp-for="CivilStatus" class="form-control">
+                            <option value="">Select Civil Status</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Widowed">Widowed</option>
+                            <option value="Divorced">Divorced</option>
+                        </select>
+                        <span asp-validation-for="CivilStatus" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Age" class="control-label"></label>
+                        <input asp-for="Age" class="form-control" placeholder="Age will be calculated" readonly />
+                        <span asp-validation-for="Age" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second row for more fields -->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="BankAccountType" class="control-label"></label>
+                        <input asp-for="BankAccountType" class="form-control" placeholder="Enter Bank Account Type" />
+                        <span asp-validation-for="BankAccountType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BankAccountNo" class="control-label"></label>
+                        <input asp-for="BankAccountNo" class="form-control" placeholder="Enter Bank Account Number" />
+                        <span asp-validation-for="BankAccountNo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="BeneficiaryType" class="control-label"></label>
+                        <input asp-for="BeneficiaryType" class="form-control" placeholder="Enter Beneficiary Type" />
+                        <span asp-validation-for="BeneficiaryType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Occupation" class="control-label"></label>
+                        <input asp-for="Occupation" class="form-control" placeholder="Enter Occupation" />
+                        <span asp-validation-for="Occupation" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="OccupationSpecify" class="control-label"></label>
+                        <input asp-for="OccupationSpecify" class="form-control" placeholder="Specify Occupation (if applicable)" />
+                        <span asp-validation-for="OccupationSpecify" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="MonthlyIncome" class="control-label"></label>
+                        <input asp-for="MonthlyIncome" class="form-control" placeholder="Enter Monthly Income" />
+                        <span asp-validation-for="MonthlyIncome" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Dependent" class="control-label"></label>
+                        <input asp-for="Dependent" class="form-control" placeholder="Enter Dependent" />
+                        <span asp-validation-for="Dependent" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SkillsTrainingNeeded" class="control-label"></label>
+                        <input asp-for="SkillsTrainingNeeded" class="form-control" placeholder="Enter Skills Training Needed" />
+                        <span asp-validation-for="SkillsTrainingNeeded" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="InterestedInSkillsTraining" /> Interested in Skills Training
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="BatchId" class="control-label"></label>
+                        <select asp-for="BatchId" class="form-control" asp-items="ViewBag.BatchId"></select>
+                        <span asp-validation-for="BatchId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AddressId" class="control-label"></label>
+                        <select asp-for="AddressId" class="form-control" asp-items="ViewBag.AddressId"></select>
+                        <span asp-validation-for="AddressId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

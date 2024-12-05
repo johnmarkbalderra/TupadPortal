@@ -1,0 +1,493 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = tupadportal
+build_property.RootNamespace = tupadportal
+build_property.ProjectDir = C:\Users\markb\OneDrive\Desktop\tupadportal\tupadportal\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\markb\OneDrive\Desktop\tupadportal\tupadportal
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/AdminLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxBZG1pbkxvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/ConfirmEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxDb25maXJtRW1haWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/ConfirmEmailChange.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxDb25maXJtRW1haWxDaGFuZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/ExternalLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxFeHRlcm5hbExvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/LoginWith2fa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbldpdGgyZmEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Logout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Manage/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcQ2hhbmdlUGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Manage/Disable2fa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRGlzYWJsZTJmYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Manage/DownloadPersonalData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRG93bmxvYWRQZXJzb25hbERhdGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Manage/Email.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRW1haWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Manage/EnableAuthenticator.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRW5hYmxlQXV0aGVudGljYXRvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Manage/ExternalLogins.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRXh0ZXJuYWxMb2dpbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Manage/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Manage/PersonalData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcUGVyc29uYWxEYXRhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Manage/SetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcU2V0UGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Manage/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX01hbmFnZU5hdi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Manage/_StatusMessage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX1N0YXR1c01lc3NhZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/RegisterConfirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3RlckNvbmZpcm1hdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/ResendEmailConfirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZXNlbmRFbWFpbENvbmZpcm1hdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/_StatusMessage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfU3RhdHVzTWVzc2FnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Pages/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Addresses/ApplicantDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXEFwcGxpY2FudERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Addresses/ApplicantsList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXEFwcGxpY2FudHNMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Addresses/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Addresses/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Addresses/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Addresses/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Addresses/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Addresses/ListApplicants.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXExpc3RBcHBsaWNhbnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Addresses/_AddressDetailsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXF9BZGRyZXNzRGV0YWlsc1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Addresses/_AddressListPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXF9BZGRyZXNzTGlzdFBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Addresses/_ApplicantDetailsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXF9BcHBsaWNhbnREZXRhaWxzUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Addresses/_ApplicantListPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXF9BcHBsaWNhbnRMaXN0UGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Addresses/_EditAddressPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc2VzXF9FZGl0QWRkcmVzc1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminAnnouncements/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Bbm5vdW5jZW1lbnRzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminAnnouncements/_CreatePartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Bbm5vdW5jZW1lbnRzXF9DcmVhdGVQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminAnnouncements/_DeletePartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Bbm5vdW5jZW1lbnRzXF9EZWxldGVQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminAnnouncements/_DetailsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Bbm5vdW5jZW1lbnRzXF9EZXRhaWxzUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminAnnouncements/_EditPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Bbm5vdW5jZW1lbnRzXF9FZGl0UGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminApplicants/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5BcHBsaWNhbnRzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminApplicants/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5BcHBsaWNhbnRzXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminApplicants/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5BcHBsaWNhbnRzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminApplicants/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5BcHBsaWNhbnRzXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminApplicants/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5BcHBsaWNhbnRzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminApplicants/ListApplicants.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5BcHBsaWNhbnRzXExpc3RBcHBsaWNhbnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminApplicants/_ApplicantListPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5BcHBsaWNhbnRzXF9BcHBsaWNhbnRMaXN0UGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminAttendances/AdminApplicantAttendance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5BdHRlbmRhbmNlc1xBZG1pbkFwcGxpY2FudEF0dGVuZGFuY2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminAttendances/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5BdHRlbmRhbmNlc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/AdminAttendances/_AdminApplicantAttendance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5BdHRlbmRhbmNlc1xfQWRtaW5BcHBsaWNhbnRBdHRlbmRhbmNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Announcements/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5ub3VuY2VtZW50c1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Announcements/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5ub3VuY2VtZW50c1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Announcements/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5ub3VuY2VtZW50c1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Announcements/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5ub3VuY2VtZW50c1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Announcements/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5ub3VuY2VtZW50c1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Announcements/_DetailsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5ub3VuY2VtZW50c1xfRGV0YWlsc1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/_BatchDetailsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xfQmF0Y2hEZXRhaWxzUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/_CreateStep1Partial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xfQ3JlYXRlU3RlcDFQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/_CreateStep2Partial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xfQ3JlYXRlU3RlcDJQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/_CreateStep3Partial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xfQ3JlYXRlU3RlcDNQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/_CreateStep4Partial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xfQ3JlYXRlU3RlcDRQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/_CreateStep5Partial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xfQ3JlYXRlU3RlcDVQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/_EditStep1Partial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xfRWRpdFN0ZXAxUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/_EditStep2Partial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xfRWRpdFN0ZXAyUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/_EditStep3Partial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xfRWRpdFN0ZXAzUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/_EditStep4Partial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xfRWRpdFN0ZXA0UGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Applicants/_EditStep5Partial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50c1xfRWRpdFN0ZXA1UGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Attendances/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXR0ZW5kYW5jZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Attendances/_ApplicantAttendancePartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXR0ZW5kYW5jZXNcX0FwcGxpY2FudEF0dGVuZGFuY2VQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batchess/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc3NcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batchess/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc3NcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batchess/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc3NcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batchess/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc3NcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batchess/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc3NcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batchess/_ApplicantDetailsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc3NcX0FwcGxpY2FudERldGFpbHNQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batchess/_ApplicantsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc3NcX0FwcGxpY2FudHNQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batchess/_CreatePartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc3NcX0NyZWF0ZVBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batchess/_DetailsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc3NcX0RldGFpbHNQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batchess/_EditPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc3NcX0VkaXRQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batches/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batches/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batches/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batches/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batches/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batches/_CreatePartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc1xfQ3JlYXRlUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batches/_DetailsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc1xfRGV0YWlsc1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Batches/_EditPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmF0Y2hlc1xfRWRpdFBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Emails/EmailConfirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1haWxzXEVtYWlsQ29uZmlybWF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Shared/Components/Notification/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTm90aWZpY2F0aW9uXERlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/User/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/User/_UserDetailsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxfVXNlckRldGFpbHNQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/markb/OneDrive/Desktop/tupadportal/tupadportal/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-861mbbqk7j

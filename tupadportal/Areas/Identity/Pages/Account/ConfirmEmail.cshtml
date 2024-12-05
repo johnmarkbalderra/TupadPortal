@@ -1,0 +1,42 @@
+﻿@page
+@model tupadportal.Areas.Identity.Pages.Account.ConfirmEmailModel
+@{
+    ViewData["Title"] = "Email Confirmation";
+}
+<div class="row my-5">
+    <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
+<h2>Email Confirmation</h2>
+    </div>
+</div>
+<!-- Hidden alert content. This will only be triggered by JavaScript -->
+<div id="confirmationAlert" data-status="@Model.StatusMessage"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const statusMessage = document.getElementById("confirmationAlert").getAttribute("data-status");
+
+            if (statusMessage.includes("Thank you for confirming your email.")) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Thank you for confirming your account, please log in!',
+                    icon: 'success',
+                    confirmButtonText: 'Log In'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/Identity/Account/Login'; // Update this route
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'There was an issue confirming your email. Please try again later.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    </script>
+}

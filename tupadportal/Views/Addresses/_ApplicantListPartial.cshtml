@@ -1,0 +1,35 @@
+﻿@* @model IEnumerable<Ap.Models.Applicants>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>Name</th>
+            <th>Batch</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var applicant in Model)
+            {
+                <tr>
+                    <td>@applicant.FirstName @applicant.LastName</td>
+                    <td>@applicant.Batch?.BatchName ?? "No Batch Assigned"</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" data-applicant-details="@applicant.ApplicantId" title="View Details">
+                            <i class="bi bi-info-circle me-1"></i> Details
+                        </button>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3" class="text-center">No applicants found.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+ *@

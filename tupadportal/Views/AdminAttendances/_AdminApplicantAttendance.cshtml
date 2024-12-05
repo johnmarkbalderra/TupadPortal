@@ -1,0 +1,34 @@
+﻿@model IEnumerable<tupadportal.Models.Attendance>
+
+<div class="modal-header bg-info">
+    <h5 class="modal-title">Attendance Management</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <h4 class="text-decoration-underline">Attendance Details</h4>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Applicant</th>
+                <th>Date</th>
+                <th>Time In AM</th>
+                <th>Time Out AM</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var attendance in Model)
+            {
+                <tr>
+                    <td>@attendance.Applicant.FirstName @attendance.Applicant.LastName</td>
+                    <td>@attendance.Date.ToShortDateString()</td>
+                    <td>@(attendance.TimeInAM.HasValue ? attendance.TimeInAM.Value.ToShortTimeString() : "00:00")</td>
+                    <td>@(attendance.TimeOutAM.HasValue ? attendance.TimeOutAM.Value.ToShortTimeString() : "00:00")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+</div>

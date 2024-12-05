@@ -1,0 +1,85 @@
+﻿@model tupadportal.ViewModels.Step3ViewModel
+@{
+    Layout = null;
+}
+
+<div class="modal-header bg-info">
+    <h5 class="modal-title">Edit: Occupation and Income - Step 3</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form id="editStep3Form">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="ApplicantId" />
+
+        <div class="row">
+            <!-- Occupation -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Occupation"></label>
+                    <input asp-for="Occupation" class="form-control" placeholder="Enter Occupation" />
+                    <span asp-validation-for="Occupation" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Occupation Specify -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="OccupationSpecify"></label>
+                    <input asp-for="OccupationSpecify" class="form-control" placeholder="Specify Occupation (if applicable)" />
+                    <span asp-validation-for="OccupationSpecify" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Monthly Income -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="MonthlyIncome"></label>
+                    <input asp-for="MonthlyIncome" class="form-control" placeholder="Enter Monthly Income" />
+                    <span asp-validation-for="MonthlyIncome" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Row -->
+        <div class="row">
+            <!-- Beneficiary Type -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="BeneficiaryType"></label>
+                    <select asp-for="BeneficiaryType" class="form-control">
+                        <option value="">Select Beneficiary</option>
+                        <option value="UnderEmployed/Self-Employed">UnderEmployed/Self-Employed</option>
+                        <option value="Minimum Wages/Below Minimum Wages Earners that were Displaced">Minimum Wages</option>
+                        <option value="PWD">PWD</option>
+                        <option value="Indigenous People">Indigenous People</option>
+                        <option value="Former Rebels">Former Rebels</option>
+                        <option value="Former Violent Extremist Group">Former Violent Extremist Group</option>
+                    </select>
+                    <span asp-validation-for="BeneficiaryType" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Dependent -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Dependent"></label>
+                    <input asp-for="Dependent" class="form-control" placeholder="Enter Dependent" />
+                    <span asp-validation-for="Dependent" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" onclick="loadEditStep(2, @Model.ApplicantId)">Back</button>
+    <button type="button" class="btn btn-primary" onclick="submitEditStep3()">Next</button>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

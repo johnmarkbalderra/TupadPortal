@@ -1,0 +1,181 @@
+﻿@page
+@model tupadportal.Areas.Identity.Pages.Account.LoginModel
+
+@{
+    ViewData["Title"] = "User Log in";
+}
+
+<style>
+    /* Floating label container */
+    .floating-label-group {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Styling the input fields */
+    .floating-label-group input {
+        border: none;
+        border-bottom: 1px solid #ccc;
+        outline: none;
+        border-radius: 0;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        transition: border-bottom-color 0.3s ease;
+    }
+
+    /* Add a transition for the border-bottom (fading line effect) */
+    .floating-label-group input:focus,
+    .floating-label-group input:not(:placeholder-shown) {
+        border-bottom-color: #007bff; /* The line fades in when focused or filled */
+    }
+
+    /* Initially hide the label inside the input */
+    .floating-label-group label {
+        position: absolute;
+        top: 0;
+        left: 10px;
+        color: #999;
+        font-size: 16px;
+        padding: 10px;
+        transition: 0.2s ease all;
+        pointer-events: none;
+    }
+
+    /* When the input is focused or contains text, move the label to the top */
+    .floating-label-group input:focus ~ label,
+    .floating-label-group input:not(:placeholder-shown) ~ label {
+        top: -20px;
+        left: 5px;
+        font-size: 12px;
+        color: #007bff; /* Change label color when floating */
+    }
+
+    /* Extra focus effect for the bottom border */
+    .floating-label-group input:focus {
+        border-bottom-width: 2px;
+        border-bottom-color: #007bff; /* Faded line color */
+    }
+
+    /* Add a slight glow effect on focus */
+    .floating-label-group input:focus {
+        box-shadow: 0 1px 0 0 #007bff;
+    }
+
+    /* Button inside input group */
+    .input-group {
+        position: relative;
+    }
+
+    .input-group .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        background: none;
+        border: none;
+    }
+
+    .input-group .toggle-password i {
+        font-size: 16px;
+        color: #999;
+    }
+</style>
+
+<div class="container my-3">
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <img src="~/img/tupad.jpg" alt="Tupad Logo" class="img-fluid" style="max-width: 80%; height: auto;">
+        </div>
+
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+            <div class="rounded border p-5 shadow" style="width: 100%; max-width: 400px;">
+                <section>
+                    <h2 class="text-center mb-3">
+                        <img src="~/img/tupad.jpg" alt="Logo" style="height:50px; width:50px;margin-right:10px;">
+                        Log In
+                    </h2>
+                    <br />
+                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+                    <form id="account" method="post">
+                        <div class="floating-label-group">
+                            <input asp-for="Input.Email" class="form-control" placeholder=" " />
+                            <label>Email</label>
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="floating-label-group input-group">
+                            <input asp-for="Input.Password" class="form-control" type="password" placeholder=" " id="password-field" />
+                            <label>Password</label>
+                            <button type="button" class="toggle-password">
+                                <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                            </button>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="checkbox mb-3">
+                            <label asp-for="Input.RememberMe" class="form-label">
+                                <input class="form-check-input" asp-for="Input.RememberMe" />
+                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                            </label>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col d-grid">
+                                <button type="submit" class="btn btn-primary">Log in</button>
+                            </div>
+                            <div class="col d-grid">
+                                <a class="btn btn-outline-primary" href="/" role="button">Cancel</a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <a class="btn btn-link" id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Toggle password visibility
+        document.querySelector('.toggle-password').addEventListener('click', function () {
+            const passwordField = document.getElementById('password-field');
+            const passwordIcon = document.getElementById('togglePasswordIcon');
+            
+            // Toggle the password field between text and password type
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                passwordIcon.classList.remove('bi-eye');
+                passwordIcon.classList.add('bi-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                passwordIcon.classList.remove('bi-eye-slash');
+                passwordIcon.classList.add('bi-eye');
+            }
+        });
+
+        // Ensure labels float correctly on load
+        document.querySelectorAll('.floating-label-group input').forEach(input => {
+            input.addEventListener('blur', function () {
+                if (this.value) {
+                    this.classList.add('has-content');
+                } else {
+                    this.classList.remove('has-content');
+                }
+            });
+
+            // Ensure label is floated when there is value preloaded in the input (e.g., from autofill)
+            if (input.value) {
+                input.classList.add('has-content');
+            }
+        });
+    </script>
+}

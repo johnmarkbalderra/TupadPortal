@@ -1,0 +1,445 @@
+﻿@model IEnumerable<tupadportal.Models.Applicants>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row my-5">
+    <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="text-decoration-underline">Applicants List</h3>
+
+            <!-- Batch Filter Form -->
+            <form method="get" asp-action="Index" class="d-flex align-items-center">
+                <select name="batchId" class="form-select form-select-sm me-2" asp-items="ViewBag.BatchId" onchange="this.form.submit()">
+                    <option value="">All Batches</option>
+                </select>
+
+                @if (ViewBag.AllBatchesFull)
+                {
+                    <span class="text-danger w-50">Full Load</span>
+                }
+
+                <a class="btn btn-info btn-sm @(ViewBag.AllBatchesFull ? "disabled" : "")" data-bs-toggle="modal" data-bs-target="#createModal">
+                    <i class="bi bi-person-plus-fill me-2"></i> Add Applicant
+                </a>
+            </form>
+        </div>
+        <hr />
+
+        <div class="container mt-3">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>Name</th>
+                            @* <th>Barangay</th> *@
+                            <th>Approved</th>
+                            <th>Batch</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@($"{item.LastName}, {item.FirstName} {item.MiddleName}")</td>
+                                @* <td>@Html.DisplayFor(modelItem => item.Address.Barangay)</td> *@
+                                <td>
+                                    @(item.Approved ? "Yes" : "No")
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.Batch.BatchName)</td>
+                                <td class="d-flex">
+                                    <button class="btn btn-sm btn-primary me-2" onclick="openEditModal(@item.ApplicantId)">
+                                        <i class="bi bi-pencil-fill me-2"></i>Edit
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#detailsModal-@item.ApplicantId">
+                                        <i class="bi bi-eye-fill me-2"></i>View Details
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for displaying batch details -->
+<div class="modal fade" id="batchDetailsModal" tabindex="-1" aria-labelledby="batchDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title" id="batchDetailsModalLabel">Batch Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="batchDetailsContent">
+                <!-- Content will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal for displaying batch details -->
+<div class="modal fade" id="batchDetailsModal" tabindex="-1" aria-labelledby="batchDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title" id="batchDetailsModalLabel">Batch Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="batchDetailsContent">
+                <!-- Content will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Modal code remains unchanged -->
+
+
+<!-- Create Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="modalContent">
+            <!-- Step content will be loaded here -->
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="editModalContent">
+            <!-- Edit step content will be loaded here -->
+        </div>
+    </div>
+</div>
+
+@foreach (var item in Model)
+{
+        <div class="modal fade" id="detailsModal-@item.ApplicantId" tabindex="-1" aria-labelledby="detailsModalLabel-@item.ApplicantId" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-info">
+                        <h5 class="modal-title" id="detailsModalLabel-@item.ApplicantId">Applicant Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <dl class="row">
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.FirstName)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.FirstName)</dd>
+
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.MiddleName)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.MiddleName)</dd>
+
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.LastName)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.LastName)</dd>
+
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Birthdate)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.Birthdate)</dd>
+
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.IdType)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.IdType)</dd>
+
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.IdNumber)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.IdNumber)</dd>
+
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.ContactNo)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.ContactNo)</dd>
+
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.BankAccountType)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.BankAccountType)</dd>
+
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.BeneficiaryType)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.BeneficiaryType)</dd>
+                                </dl>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <dl class="row">
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Occupation)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.Occupation)</dd>
+
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Sex)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.Sex)</dd>
+
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.CivilStatus)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.CivilStatus)</dd>
+
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Age)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.Age)</dd>
+
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.MonthlyIncome)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.MonthlyIncome)</dd>
+
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Dependent)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.Dependent)</dd>
+
+                                    <dt class="col-sm-5">Interested Training</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.InterestedInSkillsTraining)</dd>
+
+                                    <dt class="col-sm-5">Training Needed</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.SkillsTrainingNeeded)</dd>
+
+                                    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.DateTime)</dt>
+                                    <dd class="col-sm-7">@Html.DisplayFor(modelItem => item.DateTime)</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-primary" onclick="openEditModal(@item.ApplicantId)">Edit</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ApplicantId">Delete</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+}
+
+
+
+
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+@section Scripts {
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '@TempData["SuccessMessage"]'
+                });
+            });
+        </script>
+    }
+    
+    <script>
+        
+
+        $(document).ready(function () {
+            // Load the first step when the modal is opened
+            $('#createModal').on('show.bs.modal', function () {
+                loadStep(1);
+            });
+        });
+
+        function loadStep(step) {
+            $.ajax({
+                url: '@Url.Action("LoadCreateStep", "Applicants")',
+                data: { step: step },
+                success: function (result) {
+                    $('#modalContent').html(result);
+                }
+            });
+        }
+
+        function submitStep1() {
+            var form = $('#step1Form');
+            $.ajax({
+                url: '@Url.Action("SubmitCreateStep1", "Applicants")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        loadStep(2);
+                    } else {
+                        $('#modalContent').html(response);
+                    }
+                }
+            });
+        }
+
+        function submitStep2() {
+            var form = $('#step2Form');
+            $.ajax({
+                url: '@Url.Action("SubmitCreateStep2", "Applicants")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        loadStep(3);
+                    } else {
+                        $('#modalContent').html(response);
+                    }
+                }
+            });
+        }
+
+        function submitStep3() {
+            var form = $('#step3Form');
+            $.ajax({
+                url: '@Url.Action("SubmitCreateStep3", "Applicants")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        loadStep(4);
+                    } else {
+                        $('#modalContent').html(response);
+                    }
+                }
+            });
+        }
+
+        function submitStep4() {
+            var form = $('#step4Form');
+            $.ajax({
+                url: '@Url.Action("SubmitCreateStep4", "Applicants")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        loadStep(5);
+                    } else {
+                        $('#modalContent').html(response);
+                    }
+                }
+            });
+        }
+
+        function submitStep5() {
+            var form = $('#step5Form');
+            $.ajax({
+                url: '@Url.Action("SubmitCreateStep5", "Applicants")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('#createModal').modal('hide');
+                        // Optionally, refresh the page or update the applicants list
+                        location.reload(); // Reload the page to update the list
+                    } else {
+                        $('#modalContent').html(response);
+                    }
+                }
+            });
+        }
+
+        // Edit Functions
+        function openEditModal(applicantId) {
+            $('#editModal').modal('show');
+            loadEditStep(1, applicantId);
+        }
+
+        function loadEditStep(step, applicantId) {
+            $.ajax({
+                url: '@Url.Action("LoadEditStep", "Applicants")',
+                data: { step: step, applicantId: applicantId },
+                success: function (result) {
+                    $('#editModalContent').html(result);
+                }
+            });
+        }
+
+        function submitEditStep1() {
+            var form = $('#editStep1Form');
+            $.ajax({
+                url: '@Url.Action("SubmitEditStep1", "Applicants")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        var applicantId = form.find('input[name="ApplicantId"]').val();
+                        loadEditStep(2, applicantId);
+                    } else {
+                        $('#editModalContent').html(response);
+                    }
+                }
+            });
+        }
+
+        function submitEditStep2() {
+            var form = $('#editStep2Form');
+            $.ajax({
+                url: '@Url.Action("SubmitEditStep2", "Applicants")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        var applicantId = form.find('input[name="ApplicantId"]').val();
+                        loadEditStep(3, applicantId);
+                    } else {
+                        $('#editModalContent').html(response);
+                    }
+                }
+            });
+        }
+
+        function submitEditStep3() {
+            var form = $('#editStep3Form');
+            $.ajax({
+                url: '@Url.Action("SubmitEditStep3", "Applicants")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        var applicantId = form.find('input[name="ApplicantId"]').val();
+                        loadEditStep(4, applicantId);
+                    } else {
+                        $('#editModalContent').html(response);
+                    }
+                }
+            });
+        }
+
+        function submitEditStep4() {
+            var form = $('#editStep4Form');
+            $.ajax({
+                url: '@Url.Action("SubmitEditStep4", "Applicants")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        var applicantId = form.find('input[name="ApplicantId"]').val();
+                        loadEditStep(5, applicantId);
+                    } else {
+                        $('#editModalContent').html(response);
+                    }
+                }
+            });
+        };
+
+
+        function submitEditStep5() {
+            var form = $('#editStep5Form');
+            $.ajax({
+                url: '@Url.Action("SubmitEditStep5", "Applicants")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('#editModal').modal('hide');
+                        // Optionally, refresh the page or update the applicants list
+                        location.reload(); // Reload the page to update the list
+                    } else {
+                        $('#editModalContent').html(response);
+                    }
+                }
+            });
+        }
+    </script>
+}

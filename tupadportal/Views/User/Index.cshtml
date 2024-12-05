@@ -1,0 +1,115 @@
+﻿@model IEnumerable<tupadportal.Models.ApplicationUser>
+
+<div class="row my-5">
+    <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-decoration-underline">User Management</h2>
+
+            <!-- Search Form -->
+            <form asp-action="Index" method="get" class="d-flex">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="searchString" placeholder="Search by username..." value="@ViewData["CurrentFilter"]" />
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <i class="bi bi-search me-1"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Responsive Table for users -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Barangay</th>
+                        <th>Status</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.UserName</td>
+                            <td>@user.Address?.Barangay</td> <!-- Barangay shown here -->
+                            <td>
+                                <span class="@(user.Active ? "text-success" : "text-danger")">
+                                    @(user.Active ? "Activated" : "Not Activated")
+                                </span>
+                            </td>
+                            <td>@user.Role</td>
+                            <td>
+                                <div class="d-flex flex-row gap-2">
+                                    <!-- View User Details Button -->
+                                    <button class="btn btn-info btn-sm w-100 view-details-btn" data-id="@user.Id" data-bs-toggle="modal" data-bs-target="#userDetailsModal">
+                                        <i class="bi bi-eye"></i>Details
+                                    </button>
+
+                                    <!-- Single Toggle Button for Activation/Deactivation -->
+                                    <form asp-action="ToggleUserActivation" asp-route-id="@user.Id" method="post" class="w-100">
+                                        <button type="submit" class="btn btn-sm w-100 @(user.Active ? "btn-danger" : "btn-success") w-100">
+                                            <i class="bi @(user.Active ? "bi-toggle-off" : "bi-toggle-on") me-1"></i>
+                                            @(user.Active ? "Deact" : "Active")
+                                        </button>
+                                    </form>
+
+                                    <!-- Change Role Button -->
+                                    <a class="btn btn-secondary btn-sm w-100" asp-action="ChangeUserRole" asp-route-id="@user.Id">
+                                        <i class="bi bi-gear me-1"></i>Role
+                                    </a>
+                                </div>
+                            </td>
+
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- User Details Modal -->
+<div class="modal fade" id="userDetailsModal" tabindex="-1" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userDetailsModalLabel">User Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- User details will be loaded via AJAX here -->
+                <div id="userDetailsContent">
+                    <p>Loading...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Load user details via AJAX when the "View Details" button is clicked
+            $('.view-details-btn').on('click', function () {
+                var userId = $(this).data('id');
+                $('#userDetailsContent').html('<p>Loading...</p>'); // Show loading text
+
+                $.ajax({
+                    url: '/User/GetUserDetails/' + userId,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#userDetailsContent').html(data); // Load the details into the modal body
+                    },
+                    error: function () {
+                        $('#userDetailsContent').html('<p class="text-danger">Failed to load user details.</p>');
+                    }
+                });
+            });
+        });
+    </script>
+}

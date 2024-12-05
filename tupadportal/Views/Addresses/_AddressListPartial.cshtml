@@ -1,0 +1,23 @@
+﻿@model IEnumerable<tupadportal.Models.Address>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Barangay</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Barangay</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailsModal" data-id="@item.Add_Id">View Slots</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

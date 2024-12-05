@@ -1,0 +1,75 @@
+﻿@model tupadportal.ViewModels.Step4ViewModel
+@{
+    Layout = null;
+}
+
+<div class="modal-header bg-info">
+    <h5 class="modal-title">Bank Information - Step 4</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form id="step4Form">
+        @Html.AntiForgeryToken()
+
+        <!-- Dropdown for Bank Account Type -->
+        <div class="form-group">
+            <label asp-for="BankAccountType"></label>
+            <select asp-for="BankAccountType" class="form-select" id="bankAccountTypeSelect">
+                <option value="">Select Bank Account Type</option>
+                <option>Savings Account</option>
+                <option>Checking Account</option>
+                <option>Current Account</option>
+                <option>Payroll Account</option>
+                <option>Time Deposit Account</option>
+                <option>Joint Account</option>
+                <option>Foreign Currency Account</option>
+                <option>Business Account</option>
+                <option>Investment Account</option>
+                <option value="Other">Other</option>
+            </select>
+            <span asp-validation-for="BankAccountType" class="text-danger"></span>
+        </div>
+
+        <!-- Input field for specifying "Other" Bank Account Type -->
+        <div class="form-group mt-3" id="otherBankAccountType" style="display: none;">
+            <label for="OtherBankAccountType">Specify Bank Account Type</label>
+            <input type="text" id="OtherBankAccountType" name="OtherBankAccountType" class="form-control" placeholder="Enter Bank Account Type" />
+        </div>
+
+        <!-- Bank Account Number Input -->
+        <div class="form-group">
+            <label asp-for="BankAccountNo"></label>
+            <input asp-for="BankAccountNo" class="form-control" placeholder="Enter Bank Account Number (Optional)" data-val="false" data-val-required="false" />
+            <span asp-validation-for="BankAccountNo" class="text-danger"></span>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" onclick="loadStep(3)">Back</button>
+    <button type="button" class="btn btn-primary" onclick="submitStep4()">Next</button>
+</div>
+
+@section Scripts {
+    <script>
+        // Ensure the DOM is fully loaded before running the script
+        document.addEventListener("DOMContentLoaded", function () {
+            var bankAccountTypeSelect = document.getElementById("bankAccountTypeSelect");
+            var otherInputDiv = document.getElementById("otherBankAccountType");
+
+            // Add change event listener
+            bankAccountTypeSelect.addEventListener("change", function() {
+                // Show the input field if "Other" is selected, otherwise hide it
+                if (bankAccountTypeSelect.value === "Other") {
+                    otherInputDiv.style.display = "block";
+                } else {
+                    otherInputDiv.style.display = "none";
+                }
+            });
+
+            // Run once on page load to check if "Other" was preselected
+            if (bankAccountTypeSelect.value === "Other") {
+                otherInputDiv.style.display = "block";
+            }
+        });
+    </script>
+}

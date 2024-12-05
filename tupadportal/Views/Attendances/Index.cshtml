@@ -1,0 +1,301 @@
+﻿@model IEnumerable<tupadportal.Models.AttendanceChecklist>
+@using tupadportal.Data
+@inject ApplicationDbContext _context
+
+@{
+    ViewData["Title"] = "Attendance Checklist";
+}
+
+<div class="row my-5">
+    <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
+        <!-- Row for the title, batch filter, and QR code button -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+            <h2 class="text-decoration-underline mb-0">Attendance Checklist</h2>
+
+            <!-- Batch Filter Form and QR Code Button -->
+            <div class="d-flex flex-wrap justify-content-end">
+                <!-- Batch Filter Form -->
+                <form method="get" asp-action="Index" class="d-flex me-2">
+                    <select name="batchId" class="form-select form-select-sm me-2" asp-items="ViewBag.BatchId" onchange="this.form.submit()">
+                        <option value="">All Batches</option>
+                    </select>
+                </form>
+
+                <!-- Scan QR Code Button -->
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#qrScannerModal">
+                    <i class="bi bi-qr-code-scan me-2"></i> Scan QR Code
+                </button>
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- Attendance Checklist Table (Responsive) -->
+        <div class="table-responsive">
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <!-- Loop through 10 days and display dates vertically -->
+                        @for (var day = 0; day < 10; day++)
+                        {
+                            <th style="writing-mode: vertical-lr; transform: rotate(180deg);">
+                                @Model.FirstOrDefault()?.StartDate.AddDays(day).ToString("MMM dd")
+                            </th>
+                        }
+                        <th>QR Code</th>
+                        <th>Attendance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var checklist in Model)
+                    {
+                        <tr>
+                            <td>@checklist.ChecklistId</td>
+                            <td>@checklist.Applicant?.FirstName @checklist.Applicant?.LastName</td>
+                            <!-- Display attendance and signature for each day -->
+                            @for (var day = 0; day < 10; day++)
+                            {
+                                var date = checklist.StartDate.AddDays(day).Date;
+                                var attendance = _context.Attendances.FirstOrDefault(a => a.ApplicantId == checklist.ApplicantId && a.Date.Date == date);
+
+                                <td>
+                                    @if (attendance != null && attendance.TimeInAM.HasValue && attendance.TimeOutAM.HasValue)
+                                    {
+                                        @if (!string.IsNullOrEmpty(attendance.Signature))
+                                        {
+                                            <img src="@("data:image/png;base64," + attendance.Signature)" alt="Signature" style="width: 100px; height: auto;" />
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#signatureModal" data-applicant-id="@checklist.ApplicantId" data-date="@date.ToString("yyyy-MM-dd")">
+                                                <i class="bi bi-pencil-square me-1"></i> Sign
+                                            </button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @(checklist.DaysChecked[day] ? "✔️" : "❌")
+                                    }
+                                </td>
+                            }
+                            <td>
+                                <a class="btn btn-success btn-sm" asp-action="DownloadQRCode" asp-route-applicantId="@checklist.ApplicantId">
+                                    <i class="bi bi-download me-1"></i> QR
+                                </a>
+                            </td>
+                            <td>
+                                <button class="btn btn-info btn-sm open-attendance-modal" data-applicant-id="@checklist.ApplicantId">
+                                    <i class="bi bi-person-check me-1"></i> Attendance
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- QR Scanner Modal -->
+<div class="modal fade" id="qrScannerModal" tabindex="-1" aria-labelledby="qrScannerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">QR Code Scanner</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="reader" style="width: 100%;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Signature Modal -->
+<div class="modal fade" id="signatureModal" tabindex="-1" aria-labelledby="signatureModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">E-Signature</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <canvas id="signature-pad" class="signature-pad" width="600" height="200" style="border:1px solid #000;"></canvas>
+                <div class="mt-2">
+                    <button type="button" class="btn btn-warning" id="clear-signature">
+                        <i class="bi bi-eraser me-1"></i> Clear
+                    </button>
+                    <button type="button" class="btn btn-primary" id="save-signature">
+                        <i class="bi bi-save me-1"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Applicant Attendance Modal -->
+<div class="modal fade" id="applicantAttendanceModal" tabindex="-1" aria-labelledby="applicantAttendanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Applicant Attendance</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Attendance details will be loaded here via AJAX -->
+                <div id="attendanceDetails">
+                    <p>Loading...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Bootstrap Icons CDN (if not included in layout) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <!-- QR Code Scanner Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+
+    <!-- Signature Pad Library -->
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+    <!-- jQuery CDN (if not already included) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        let html5QrcodeScanner;
+
+        function openQRCamera() {
+            html5QrcodeScanner = new Html5QrcodeScanner(
+                "reader", { fps: 30, qrbox: 350 });
+
+            function onScanSuccess(qrCodeMessage) {
+                markAttendance(qrCodeMessage);
+                html5QrcodeScanner.clear().then(() => {
+                    html5QrcodeScanner.render(onScanSuccess);
+                });
+            }
+
+            html5QrcodeScanner.render(onScanSuccess);
+        }
+
+        function closeQRCamera() {
+            if (html5QrcodeScanner) {
+                html5QrcodeScanner.clear();
+            }
+        }
+
+        function markAttendance(qrCodeMessage) {
+            $.ajax({
+                url: '/Attendances/MarkAttendanceByQRCode',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ qrCodeMessage: qrCodeMessage }),
+                success: function (response) {
+                    alert('Attendance marked successfully.');
+                    location.reload(); // Reload to reflect changes
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error marking attendance:', status, error, xhr.responseText);
+                    alert('Error marking attendance: ' + xhr.responseText);
+                }
+            });
+        }
+
+        $('#qrScannerModal').on('shown.bs.modal', function () {
+            openQRCamera();
+        });
+
+        $('#qrScannerModal').on('hidden.bs.modal', function () {
+            closeQRCamera();
+        });
+
+        // Signature Pad Scripts
+        var signaturePad;
+        var currentApplicantId;
+        var currentDate;
+
+        // When the signature modal is shown
+        $('#signatureModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            currentApplicantId = button.data('applicant-id'); // Extract applicant ID
+            currentDate = button.data('date'); // Extract date
+
+            // Initialize signature pad
+            var canvas = document.getElementById('signature-pad');
+            signaturePad = new SignaturePad(canvas);
+        });
+
+        // Clear signature
+        $('#clear-signature').on('click', function () {
+            signaturePad.clear();
+        });
+
+        // Save signature
+        $('#save-signature').on('click', function () {
+            if (signaturePad.isEmpty()) {
+                alert('Please provide a signature first.');
+            } else {
+                var dataUrl = signaturePad.toDataURL('image/png');
+                var base64 = dataUrl.split(',')[1];
+
+                // Send the signature to the server
+                $.ajax({
+                    url: '@Url.Action("SaveSignature", "Attendances")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        applicantId: currentApplicantId,
+                        date: currentDate,
+                        signature: base64
+                    }),
+                    success: function (response) {
+                        alert('Signature saved successfully.');
+                        location.reload(); // Reload to update the signature display
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error saving signature:', status, error, xhr.responseText);
+                        alert('Error saving signature.');
+                    }
+                });
+
+                // Close the modal
+                $('#signatureModal').modal('hide');
+            }
+        });
+
+        // Applicant Attendance Modal Scripts
+        $(document).ready(function () {
+            $('.open-attendance-modal').on('click', function () {
+                var applicantId = $(this).data('applicant-id');
+                // Open the modal
+                $('#applicantAttendanceModal').modal('show');
+                // Show loading text
+                $('#attendanceDetails').html('<p>Loading...</p>');
+                // Fetch attendance data via AJAX
+                $.ajax({
+                    url: '/Attendances/ApplicantAttendance/' + applicantId,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#attendanceDetails').html(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching attendance:', status, error, xhr.responseText);
+                        $('#attendanceDetails').html('<p class="text-danger">Error loading attendance data.</p>');
+                    }
+                });
+            });
+        });
+    </script>
+}

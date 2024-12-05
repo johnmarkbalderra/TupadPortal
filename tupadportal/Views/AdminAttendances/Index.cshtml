@@ -1,0 +1,337 @@
+﻿@model IEnumerable<tupadportal.Models.AttendanceChecklist>
+
+@{
+    ViewData["Title"] = "Attendance Checklist";
+}
+
+<!-- Added a container to ensure proper padding and responsiveness -->
+<div class="container">
+    <div class="row my-5">
+        <div class="col-12 mx-auto rounded border p-4 p-md-5 shadow glass-effect">
+            <!-- Flexbox to align the title on the left and filters, search, and sorting on the right -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
+                <h2 class="text-decoration-underline mb-3 mb-md-0">Attendance Checklist</h2>
+
+                <!-- Search, Filter, and Sorting Section aligned to the right -->
+                <div class="d-flex flex-wrap gap-2 ms-auto">
+                    <!-- Use a row with justify-content-end to align controls to the right within their container -->
+                    <div class="row justify-content-end">
+                        <!-- Search Bar Column -->
+                        <div class="col-12 col-sm-6 col-md-3 mb-2 mb-md-0">
+                            <input class="form-control w-100" id="searchAttendance" type="text" placeholder="Search by Name..." />
+                        </div>
+                        Filter by:
+                        <!-- Filter by Barangay Dropdown Column -->
+                        <div class="col-6 col-sm-3 col-md-2 mb-2 mb-md-0">
+                            <select class="form-select w-100" id="filterBarangay">
+                                <option value="">Barangay</option>
+                                @foreach (var barangay in Model.Select(c => c.Applicant.Barangay).Distinct())
+                                {
+                                    <option value="@barangay">@barangay</option>
+                                }
+                            </select>
+                        </div>
+                        <!-- Filter by Batch Dropdown Column -->
+                        <div class="col-6 col-sm-3 col-md-2 mb-2 mb-md-0">
+                            <select class="form-select w-100" id="filterBatch">
+                                <option value="">Batch</option>
+                                @foreach (var batch in Model.Select(c => c.Applicant.BatchId).Distinct())
+                                {
+                                    <option value="@batch">Batch @batch</option>
+                                }
+                            </select>
+                        </div>
+
+                        
+
+                        <!-- Sorting Icon Dropdown Column -->
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary w-100" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-sort-alpha-down"></i> <!-- Sorting Icon -->
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sortDropdown">
+                                    <li><a class="dropdown-item sort-option" href="#" data-sort="nameAsc">Sort by Name (A-Z)</a></li>
+                                    <li><a class="dropdown-item sort-option" href="#" data-sort="nameDesc">Sort by Name (Z-A)</a></li>
+                                    <li><a class="dropdown-item sort-option" href="#" data-sort="attendanceAsc">Sort by Attendance (✔️ First)</a></li>
+                                    <li><a class="dropdown-item sort-option" href="#" data-sort="attendanceDesc">Sort by Attendance (❌ First)</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <!-- Attendance Checklist Table -->
+            <div class="table-responsive">
+                <table class="table table-striped" id="attendanceTable">
+                    <thead>
+                        <tr>
+                            @* <th>No.</th> *@
+                            <th>Name</th>
+                            @* <th>Barangay</th> *@
+                            <!-- Loop through 10 days and display dates vertically -->
+                            @for (var day = 0; day < 10; day++)
+                            {
+                                <th class="text-nowrap" style="writing-mode: vertical-lr; transform: rotate(180deg);">
+                                    @Model.FirstOrDefault()?.StartDate.AddDays(day).ToString("MMM dd")
+                                </th>
+                            }
+                            <th>Attendance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendanceBody">
+                        @foreach (var checklist in Model)
+                        {
+                            <tr data-batch-id="@checklist.Applicant.BatchId" data-barangay="@checklist.Applicant.Barangay" data-applicant-name="@checklist.Applicant.FirstName @checklist.Applicant.LastName">
+                                @* <td>@checklist.ChecklistId</td> *@
+                                <td>@checklist.Applicant?.FirstName @checklist.Applicant?.LastName</td>
+                                @* <td>@checklist.Applicant?.Barangay</td> *@
+                                <!-- Display attendance check for each day -->
+                                @for (var day = 0; day < 10; day++)
+                                {
+                                    <td>@(checklist.DaysChecked[day] ? "✔️" : "❌")</td>
+                                }
+                                <td>
+                                    <button class="btn btn-info btn-sm view-attendance-btn" data-applicant-id="@checklist.ApplicantId">Attendance</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Attendance Modal -->
+<div class="modal fade" id="attendanceModal" tabindex="-1" aria-labelledby="attendanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="attendanceModalContent">
+            <!-- Content will be loaded here via AJAX -->
+            <div class="modal-body text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Signature Modal -->
+<div class="modal fade" id="signatureModal" tabindex="-1" aria-labelledby="signatureModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">E-Signature</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <canvas id="signature-pad" class="signature-pad w-100" height="200" style="border:1px solid #000;"></canvas>
+                <div class="mt-2 d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-warning" id="clear-signature">Clear</button>
+                    <button type="button" class="btn btn-primary" id="save-signature">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- QR Code Scanner Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+
+    <!-- Signature Pad Library -->
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+    <script>
+        // QR Code Scanner Scripts
+        let html5QrcodeScanner;
+
+        function openQRCamera() {
+            html5QrcodeScanner = new Html5QrcodeScanner(
+                "reader", { fps: 30, qrbox: 350 });
+
+            function onScanSuccess(qrCodeMessage) {
+                markAttendance(qrCodeMessage);
+                // Re-initialize the scanner to scan again
+                html5QrcodeScanner.clear().then(() => {
+                    html5QrcodeScanner.render(onScanSuccess);
+                });
+            }
+
+            html5QrcodeScanner.render(onScanSuccess);
+        }
+
+        function closeQRCamera() {
+            if (html5QrcodeScanner) {
+                html5QrcodeScanner.clear();
+            }
+        }
+
+        function markAttendance(qrCodeMessage) {
+            $.ajax({
+                url: '/Attendances/MarkAttendanceByQRCode',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ qrCodeMessage: qrCodeMessage }),
+                success: function (response) {
+                    alert('Attendance marked successfully.');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error marking attendance:', status, error, xhr.responseText);
+                }
+            });
+        }
+
+        $('#qrScannerModal').on('shown.bs.modal', function () {
+            openQRCamera();
+        });
+
+        $('#qrScannerModal').on('hidden.bs.modal', function () {
+            closeQRCamera();
+        });
+
+        // Signature Pad Scripts
+        var signaturePad;
+        var currentApplicantId;
+
+        // When the signature modal is shown
+        $('#signatureModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            currentApplicantId = button.data('applicant-id'); // Extract applicant ID
+
+            // Initialize signature pad
+            var canvas = document.getElementById('signature-pad');
+            signaturePad = new SignaturePad(canvas);
+        });
+
+        // Clear signature
+        $('#clear-signature').on('click', function () {
+            signaturePad.clear();
+        });
+
+        // Save signature
+        $('#save-signature').on('click', function () {
+            if (signaturePad.isEmpty()) {
+                alert('Please provide a signature first.');
+            } else {
+                var dataUrl = signaturePad.toDataURL('image/png');
+                var base64 = dataUrl.split(',')[1];
+
+                // Send the signature to the server
+                $.ajax({
+                    url: '@Url.Action("SaveSignature", "Attendances")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        applicantId: currentApplicantId,
+                        signature: base64
+                    }),
+                    success: function (response) {
+                        alert('Signature saved successfully.');
+                        location.reload(); // Reload to update the signature display
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error saving signature:', status, error, xhr.responseText);
+                        alert('Error saving signature.');
+                    }
+                });
+
+                // Close the modal
+                $('#signatureModal').modal('hide');
+            }
+        });
+
+        // Attendance Modal Script
+        $(document).ready(function () {
+            $('.view-attendance-btn').on('click', function () {
+                var applicantId = $(this).data('applicant-id');
+                $('#attendanceModal').modal('show');
+
+                $.ajax({
+                    url: '/AdminAttendances/ApplicantAttendance/' + applicantId,
+                    type: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function (result) {
+                        $('#attendanceModalContent').html(result);
+                    },
+                    error: function (xhr, status, error) {
+                        $('#attendanceModalContent').html('<div class="modal-header"><h5 class="modal-title">Error</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><p>Unable to load attendance data.</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button></div>');
+                        console.error('Error loading attendance data:', error);
+                    }
+                });
+            });
+        });
+
+        // Function to handle search, batch, and barangay filters along with sorting
+        function filterAndSortTable() {
+            const searchQuery = document.getElementById('searchAttendance').value.toLowerCase();
+            const selectedBatch = document.getElementById('filterBatch').value;
+            const selectedBarangay = document.getElementById('filterBarangay').value;
+            const sortOption = document.getElementById('sortDropdown').getAttribute('data-sort'); // Get the sort option from the dropdown button
+            const rows = Array.from(document.querySelectorAll('#attendanceBody tr'));
+
+            // Filter rows based on search, batch, and barangay
+            rows.forEach(row => {
+                const name = row.getAttribute('data-applicant-name').toLowerCase();
+                const batchId = row.getAttribute('data-batch-id');
+                const barangay = row.getAttribute('data-barangay');
+
+                const matchesSearch = name.includes(searchQuery);
+                const matchesBatch = selectedBatch === '' || batchId === selectedBatch;
+                const matchesBarangay = selectedBarangay === '' || barangay === selectedBarangay;
+
+                // Show row only if it matches search, batch, and barangay filters
+                row.style.display = matchesSearch && matchesBatch && matchesBarangay ? '' : 'none';
+            });
+
+            // Sort rows based on the selected option
+            const sortedRows = rows.sort((a, b) => {
+                const nameA = a.getAttribute('data-applicant-name').toLowerCase();
+                const nameB = b.getAttribute('data-applicant-name').toLowerCase();
+                const attendanceA = a.querySelectorAll('td:nth-child(4)')[0].textContent.includes('✔️');
+                const attendanceB = b.querySelectorAll('td:nth-child(4)')[0].textContent.includes('✔️');
+
+                switch (sortOption) {
+                    case 'nameAsc':
+                        return nameA.localeCompare(nameB);
+                    case 'nameDesc':
+                        return nameB.localeCompare(nameA);
+                    case 'attendanceAsc':
+                        return attendanceA === attendanceB ? 0 : attendanceA ? -1 : 1;
+                    case 'attendanceDesc':
+                        return attendanceA === attendanceB ? 0 : attendanceA ? 1 : -1;
+                    default:
+                        return 0;
+                }
+            });
+
+            // Rebuild the table with sorted rows
+            const tbody = document.getElementById('attendanceBody');
+            sortedRows.forEach(row => {
+                tbody.appendChild(row); // This moves the row in the DOM
+            });
+        }
+
+        // Event listeners for search, filter, and sorting
+        document.getElementById('searchAttendance').addEventListener('input', filterAndSortTable);
+        document.getElementById('filterBatch').addEventListener('change', filterAndSortTable);
+        document.getElementById('filterBarangay').addEventListener('change', filterAndSortTable);
+
+        // Handle sorting dropdown option click
+        document.querySelectorAll('.sort-option').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent default link behavior
+                const sortType = event.target.getAttribute('data-sort');
+                document.getElementById('sortDropdown').setAttribute('data-sort', sortType); // Set the sort option
+                filterAndSortTable(); // Reapply sorting after setting the option
+            });
+        });
+    </script>
+}

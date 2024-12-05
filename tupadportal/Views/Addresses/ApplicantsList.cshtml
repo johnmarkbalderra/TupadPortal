@@ -1,0 +1,95 @@
+﻿@model IEnumerable<tupadportal.Models.Applicants>
+
+@{
+    ViewData["Title"] = "Applicants List";
+}
+
+<div class="row my-5">
+    <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
+        <h2 class="text-decoration-underline">Applicants List</h2>
+
+        <!-- Batch Filter Dropdown -->
+        <div class="d-flex justify-content-between mb-3">
+            <select class="form-select w-auto" id="batchFilter" onchange="filterByBatch()">
+                <option value="">All Batches</option>
+                @foreach (var batch in Model.Select(a => a.Batch.BatchName).Distinct())
+                {
+                    <option value="@batch">@batch</option>
+                }
+            </select>
+
+            <!-- Search Bar -->
+            <input type="search" id="searchQuery" class="form-control w-auto" placeholder="Search Applicants" onkeyup="filterApplicants()">
+        </div>
+
+        <!-- Applicants List -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Barangay</th>
+                        <th>Batch</th>
+                        <th>Approved</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="applicantsList">
+                    @foreach (var applicant in Model)
+                    {
+                        <tr>
+                            <td>@applicant.FirstName</td>
+                            <td>@applicant.LastName</td>
+                            <td>@applicant.Address?.Barangay</td>
+                            <td>@applicant.Batch?.BatchName</td>
+                            <td>@(applicant.Approved ? "Yes" : "No")</td>
+                            <td>
+                                <a href="@Url.Action("ApplicantDetails", new { id = applicant.ApplicantId })" class="btn btn-info btn-sm">Details</a>
+                                @if (!applicant.Approved)
+                                {
+                                    <form asp-action="Approve" asp-route-id="@applicant.ApplicantId" class="d-inline">
+                                        <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function filterApplicants() {
+            var searchQuery = document.getElementById('searchQuery').value.toLowerCase();
+            var rows = document.querySelectorAll('#applicantsList tr');
+            
+            rows.forEach(function(row) {
+                var firstName = row.cells[0].innerText.toLowerCase();
+                var lastName = row.cells[1].innerText.toLowerCase();
+                if (firstName.includes(searchQuery) || lastName.includes(searchQuery)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function filterByBatch() {
+            var selectedBatch = document.getElementById('batchFilter').value;
+            var rows = document.querySelectorAll('#applicantsList tr');
+            
+            rows.forEach(function(row) {
+                var batchName = row.cells[3].innerText;
+                if (selectedBatch === '' || batchName === selectedBatch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+}

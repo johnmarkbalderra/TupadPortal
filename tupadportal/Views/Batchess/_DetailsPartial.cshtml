@@ -1,0 +1,46 @@
+﻿@model tupadportal.Models.Batch
+
+<div class="modal-header">
+    <h5 class="modal-title" id="detailsModalLabel">Batch Details</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.BatchName)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.BatchName)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.DateTime)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.DateTime)
+        </dd>
+
+        @* Remove or modify this section since Batch no longer has an Address *@
+        @* You can either remove the Address display or show a relevant piece of information from the applicants related to the batch. *@
+
+        @* Example: Display a list of barangays for the applicants in the batch *@
+        <dt class="col-sm-4">Applicants' Barangays</dt>
+        <dd class="col-sm-8">
+            @if (Model.Applicants != null && Model.Applicants.Any())
+            {
+                <ul>
+                    @foreach (var applicant in Model.Applicants)
+                    {
+                        <li>@applicant.Barangay</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No applicants available for this batch.</p>
+            }
+        </dd>
+    </dl>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+</div>

@@ -1,0 +1,174 @@
+﻿@model tupadportal.Models.Applicants
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Applicants</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ExtensionName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ExtensionName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Birthdate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Birthdate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Barangay)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Barangay)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Municipality)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Municipality)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IdType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IdType)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IdNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IdNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ContactNo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ContactNo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BankAccountType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BankAccountType)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BankAccountNo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BankAccountNo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BeneficiaryType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BeneficiaryType)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Occupation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Occupation)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OccupationSpecify)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OccupationSpecify)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Sex)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Sex)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CivilStatus)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CivilStatus)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MonthlyIncome)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MonthlyIncome)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Dependent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Dependent)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.InterestedInSkillsTraining)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.InterestedInSkillsTraining)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SkillsTrainingNeeded)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SkillsTrainingNeeded)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Approved)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Approved)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DateTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Batch)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Batch.BatId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Address.Barangay)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ApplicantId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

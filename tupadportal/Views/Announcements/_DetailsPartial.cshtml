@@ -1,0 +1,11 @@
+﻿@model tupadportal.Models.Announcement
+
+<div class="container">
+    <h3>@Model.Title</h3>
+    <hr />
+    <p><strong>Description:</strong></p>
+    <p>@Model.Description</p>
+    <p><strong>Date:</strong> @Model.CreatedDate.ToString("f")</p>
+    @* <p><strong>Status:</strong> @(Model.Read ? "Read" : "Unread")</p>
+    <p><strong>Address:</strong> @Model.Address.Barangay, @Model.Address.Municipality</p> *@
+</div>

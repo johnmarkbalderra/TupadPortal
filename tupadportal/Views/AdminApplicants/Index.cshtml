@@ -1,0 +1,432 @@
+﻿@model IEnumerable<tupadportal.Models.Applicants>
+
+@{
+    ViewData["Title"] = "Index";
+    string sortOrder = ViewData["SortOrder"]?.ToString() ?? "asc";
+    string sortColumn = ViewData["SortColumn"]?.ToString() ?? "LastName";
+}
+
+<!-- Include Bootstrap Icons CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<div class="row my-5">
+    <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
+        <h2 class="text-decoration-underline d-flex justify-content-between align-items-center">
+            Applicants List
+            <div class="d-flex flex-wrap gap-2 mt-3 mt-md-0">
+
+                <!-- Search Bar -->
+                <input class="form-control form-control-sm flex-grow-1 flex-md-grow-0" type="search" id="searchApplicant" placeholder="Search Applicants" aria-label="Search">
+
+                <!-- Barangay Filter -->
+                <select class="form-select w-auto form-control-sm">
+                    <option value="">All Barangays</option>
+                    @foreach (var barangay in Model.Select(a => a.Barangay).Distinct())
+                    {
+                        <option value="@barangay">@barangay</option>
+                    }
+                </select>
+
+                <!-- Batch Filter -->
+                <select class="form-select w-auto form-control-sm">
+                    <option value="">All Batches</option>
+                    @foreach (var batch in Model.Select(a => a.BatchId).Distinct())
+                    {
+                        <option value="@batch">Batch @batch</option>
+                    }
+                </select>
+
+                <!-- Sort Button Dropdown -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Sort By
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="@Url.Action("Index", new { sortColumn = "LastName", sortOrder = sortOrder == "asc" ? "desc" : "asc" })">
+                                Last Name
+                                @if (sortColumn == "LastName")
+                                {
+                                    <i class="bi bi-arrow-@(sortOrder == "asc" ? "down" : "up") ms-2"></i>
+                                }
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="@Url.Action("Index", new { sortColumn = "FirstName", sortOrder = sortOrder == "asc" ? "desc" : "asc" })">
+                                First Name
+                                @if (sortColumn == "FirstName")
+                                {
+                                    <i class="bi bi-arrow-@(sortOrder == "asc" ? "down" : "up") ms-2"></i>
+                                }
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="@Url.Action("Index", new { sortColumn = "Barangay", sortOrder = sortOrder == "asc" ? "desc" : "asc" })">
+                                Barangay
+                                @if (sortColumn == "Barangay")
+                                {
+                                    <i class="bi bi-arrow-@(sortOrder == "asc" ? "down" : "up") ms-2"></i>
+                                }
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="@Url.Action("Index", new { sortColumn = "Approved", sortOrder = sortOrder == "asc" ? "desc" : "asc" })">
+                                Approved
+                                @if (sortColumn == "Approved")
+                                {
+                                    <i class="bi bi-arrow-@(sortOrder == "asc" ? "down" : "up") ms-2"></i>
+                                }
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </h2>
+
+        <hr />
+
+        <!-- Responsive Table for Applicants List -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Barangay</th>
+                        <th>Approved</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="applicantList">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.LastName</td>
+                            <td>@item.FirstName</td>
+                            <td>@item.Barangay</td>
+                            <td>
+                                @if (item.Approved)
+                                {
+                                    <span class="badge bg-success">Yes</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">No</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#detailsModal-@item.ApplicantId">
+                                        <i class="bi bi-eye"></i>Details
+                                    </button>
+
+                                    @if (!item.Approved)
+                                    {
+                                        <form asp-action="Approve" asp-route-id="@item.ApplicantId" class="d-inline">
+                                            <button type="submit" class="btn btn-success btn-md">
+                                                <i class="bi bi-check-circle"></i> Approve
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-action="Disapprove" asp-route-id="@item.ApplicantId" class="d-inline">
+                                            <button type="submit" class="btn btn-warning btn-sm">
+                                                <i class="bi bi-x-circle"></i> Disapprove
+                                            </button>
+                                        </form>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@foreach (var item in Model)
+{
+    <div class="modal fade" id="detailsModal-@item.ApplicantId" tabindex="-1" aria-labelledby="detailsModalLabel-@item.ApplicantId" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title" id="detailsModalLabel-@item.ApplicantId">Applicant Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <dl class="row">
+                        <dt class="col-sm-5">First Name</dt>
+                        <dd class="col-sm-7">@item.FirstName</dd>
+
+                        <dt class="col-sm-5">Middle Name</dt>
+                        <dd class="col-sm-7">@item.MiddleName</dd>
+
+                        <dt class="col-sm-5">Last Name</dt>
+                        <dd class="col-sm-7">@item.LastName</dd>
+
+                        <dt class="col-sm-5">Extension Name</dt>
+                        <dd class="col-sm-7">@item.ExtensionName</dd>
+
+                        <dt class="col-sm-5">Birthdate</dt>
+                        <dd class="col-sm-7">@item.Birthdate.ToString("MM/dd/yyyy")</dd>
+
+                        <dt class="col-sm-5">Barangay</dt>
+                        <dd class="col-sm-7">@item.Barangay</dd>
+
+                        <dt class="col-sm-5">Municipality</dt>
+                        <dd class="col-sm-7">@item.Municipality</dd>
+
+                        <dt class="col-sm-5">ID Type</dt>
+                        <dd class="col-sm-7">@item.IdType</dd>
+
+                        <dt class="col-sm-5">ID Number</dt>
+                        <dd class="col-sm-7">@item.IdNumber</dd>
+
+                        <dt class="col-sm-5">Contact No</dt>
+                        <dd class="col-sm-7">@item.ContactNo</dd>
+
+                        <dt class="col-sm-5">Bank Account Type</dt>
+                        <dd class="col-sm-7">@item.BankAccountType</dd>
+
+                        <dt class="col-sm-5">Bank Account No</dt>
+                        <dd class="col-sm-7">@item.BankAccountNo</dd>
+
+                        <dt class="col-sm-5">Beneficiary Type</dt>
+                        <dd class="col-sm-7">@item.BeneficiaryType</dd>
+
+                        <dt class="col-sm-5">Occupation</dt>
+                        <dd class="col-sm-7">@item.Occupation</dd>
+
+                        <dt class="col-sm-5">Sex</dt>
+                        <dd class="col-sm-7">@item.Sex</dd>
+
+                        <dt class="col-sm-5">Civil Status</dt>
+                        <dd class="col-sm-7">@item.CivilStatus</dd>
+
+                        <dt class="col-sm-5">Approved</dt>
+                        <dd class="col-sm-7">
+                            @if (item.Approved)
+                            {
+                                <span class="badge bg-success">Yes</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">No</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-door-closed"></i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<!-- SweetAlert2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+@section Scripts {
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '@TempData["SuccessMessage"]'
+                });
+            });
+        </script>
+    }
+
+    <script>
+        function filterApplicants() {
+            let searchQuery = document.getElementById('searchApplicant').value;
+            let barangay = document.getElementById('barangayFilter').value;
+            let batchId = document.getElementById('batchFilter').value;
+
+            fetch(`/AdminApplicants/Search?searchQuery=${encodeURIComponent(searchQuery)}&barangay=${encodeURIComponent(barangay)}&batchId=${encodeURIComponent(batchId)}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('applicantList').innerHTML = data;
+                })
+                .catch(error => console.error('Error fetching search results:', error));
+        }
+
+        document.getElementById('searchApplicant').addEventListener('keyup', filterApplicants);
+        document.getElementById('barangayFilter').addEventListener('change', filterApplicants);
+        document.getElementById('batchFilter').addEventListener('change', filterApplicants);
+    </script>
+}
+
+
+
+
+
+
+@* @model IEnumerable<Ap.Models.Applicants>
+
+@{
+    ViewData["Title"] = "Index";
+    string sortOrder = ViewData["SortOrder"]?.ToString() ?? "asc";
+    string sortColumn = ViewData["SortColumn"]?.ToString() ?? "LastName";
+}
+
+<!-- Include Bootstrap Icons CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<div class="row my-5">
+    <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
+        <h2 class="text-decoration-underline d-flex justify-content-between align-items-center">
+            Applicants List
+            <div class="d-flex gap-2">
+
+                <!-- Search Bar -->
+                <input class="form-control form-control-sm me-2 w-75" type="search" id="searchApplicant" placeholder="Search Applicants" aria-label="Search">
+
+                <!-- Barangay Filter -->
+                <select class="form-select w-auto form-control-sm" id="barangayFilter">
+                    <option value="">All Barangays</option>
+                    @foreach (var barangay in Model.Select(a => a.Barangay).Distinct())
+                    {
+                        <option value="@barangay">@barangay</option>
+                    }
+                </select>
+
+                <!-- Batch Filter -->
+                <select class="form-select w-auto form-control-sm" id="batchFilter">
+                    <option value="">All Batches</option>
+                    @foreach (var batch in Model.Select(a => a.BatchId).Distinct())
+                    {
+                        <option value="@batch">Batch @batch</option>
+                    }
+                </select>
+            </div>
+        </h2>
+
+        <hr />
+
+        <!-- Responsive Table for Applicants List -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>
+                            <a href="@Url.Action("Index", new { sortColumn = "LastName", sortOrder = sortOrder == "asc" ? "desc" : "asc" })">
+                                Last Name
+                                @if (sortColumn == "LastName")
+                                {
+                                    <i class="bi bi-arrow-@(sortOrder == "asc" ? "down" : "up")"></i>
+                                }
+                            </a>
+                        </th>
+                        <th>
+                            <a href="@Url.Action("Index", new { sortColumn = "FirstName", sortOrder = sortOrder == "asc" ? "desc" : "asc" })">
+                                First Name
+                                @if (sortColumn == "FirstName")
+                                {
+                                    <i class="bi bi-arrow-@(sortOrder == "asc" ? "down" : "up")"></i>
+                                }
+                            </a>
+                        </th>
+                        <th>
+                            <a href="@Url.Action("Index", new { sortColumn = "Barangay", sortOrder = sortOrder == "asc" ? "desc" : "asc" })">
+                                Barangay
+                                @if (sortColumn == "Barangay")
+                                {
+                                    <i class="bi bi-arrow-@(sortOrder == "asc" ? "down" : "up")"></i>
+                                }
+                            </a>
+                        </th>
+                        <th>
+                            <a href="@Url.Action("Index", new { sortColumn = "Approved", sortOrder = sortOrder == "asc" ? "desc" : "asc" })">
+                                Approved
+                                @if (sortColumn == "Approved")
+                                {
+                                    <i class="bi bi-arrow-@(sortOrder == "asc" ? "down" : "up")"></i>
+                                }
+                            </a>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="applicantList">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.LastName</td>
+                            <td>@item.FirstName</td>
+                            <td>@item.Barangay</td>
+                            <td>
+                                @if (item.Approved)
+                                {
+                                    <span class="badge bg-success">Yes</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">No</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#detailsModal-@item.ApplicantId">
+                                        <i class="bi bi-eye"></i>Details
+                                    </button>
+
+                                    @if (!item.Approved)
+                                    {
+                                        <form asp-action="Approve" asp-route-id="@item.ApplicantId" class="d-inline">
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="bi bi-check-circle"></i> Approve
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-action="Disapprove" asp-route-id="@item.ApplicantId" class="d-inline">
+                                            <button type="submit" class="btn btn-warning btn-sm">
+                                                <i class="bi bi-x-circle"></i> Disapprove
+                                            </button>
+                                        </form>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function filterApplicants() {
+            let searchQuery = document.getElementById('searchApplicant').value;
+            let barangay = document.getElementById('barangayFilter').value;
+            let batchId = document.getElementById('batchFilter').value;
+
+            fetch(`/AdminApplicants/Search?searchQuery=${encodeURIComponent(searchQuery)}&barangay=${encodeURIComponent(barangay)}&batchId=${encodeURIComponent(batchId)}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('applicantList').innerHTML = data;
+                })
+                .catch(error => console.error('Error fetching search results:', error));
+        }
+
+        document.getElementById('searchApplicant').addEventListener('keyup', filterApplicants);
+        document.getElementById('barangayFilter').addEventListener('change', filterApplicants);
+        document.getElementById('batchFilter').addEventListener('change', filterApplicants);
+    </script>
+} *@

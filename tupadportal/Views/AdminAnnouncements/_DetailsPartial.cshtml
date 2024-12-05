@@ -1,0 +1,14 @@
+﻿@model tupadportal.Models.Announcement
+
+<dl class="row">
+    <dt class="col-sm-3">Title</dt>
+    <dd class="col-sm-9">@Model.Title</dd>
+    <dt class="col-sm-3">Description</dt>
+    <dd class="col-sm-9">@Model.Description</dd>
+    <dt class="col-sm-3">Read</dt>
+    <dd class="col-sm-9">@Model.Read</dd>
+    <dt class="col-sm-3">Address</dt>
+    <dd class="col-sm-9">@Model.Address.Barangay</dd>
+    <dt class="col-sm-3">Date</dt>
+    <dd class="col-sm-9">@Model.CreatedDate</dd>
+</dl>
