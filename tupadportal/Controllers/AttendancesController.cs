@@ -167,18 +167,10 @@ namespace tupadportal.Controllers
             {
                 var url = new Uri(qrCodeMessageModel.qrCodeMessage);
                 var query = System.Web.HttpUtility.ParseQueryString(url.Query);
-                if (!int.TryParse(query.Get("applicantId"), out int applicantId) ||
-                    !DateTime.TryParse(query.Get("date"), out DateTime date))
+                if (!int.TryParse(query.Get("applicantId"), out int applicantId))
                 {
-                    _logger.LogError("Invalid QR Code data: applicantId={applicantId}, date={date}");
+                    _logger.LogError("Invalid QR Code data: applicantId={applicantId}");
                     return BadRequest("Invalid QR Code data.");
-                }
-
-                // Check if the date matches the current date
-                if (date.Date != DateTime.Now.Date)
-                {
-                    _logger.LogWarning("Attendance date does not match the current date: providedDate={date}, currentDate={DateTime.Now.Date}");
-                    return BadRequest("Attendance can only be marked for the current date.");
                 }
 
                 var applicant = await _context.Applicants.FindAsync(applicantId);
@@ -188,18 +180,30 @@ namespace tupadportal.Controllers
                     return NotFound("Applicant not found.");
                 }
 
-                var attendance = await _context.Attendances
-                    .FirstOrDefaultAsync(a => a.ApplicantId == applicantId && a.Date == date);
+                // Retrieve the specific StartDate from the checklist
+                var checklist = await _context.AttendanceChecklists
+                    .FirstOrDefaultAsync(c => c.ApplicantId == applicantId);
 
-                var now = DateTime.Now;
+                if (checklist == null || checklist.StartDate == null)
+                {
+                    _logger.LogError("StartDate not found for applicantId={applicantId}");
+                    return BadRequest("StartDate not found for the applicant.");
+                }
+
+                var startDate = checklist.StartDate.Date; // Use the specific StartDate
+
+                // Fetch attendance record for the specific StartDate
+                var attendance = await _context.Attendances
+                    .FirstOrDefaultAsync(a => a.ApplicantId == applicantId && a.Date == startDate);
 
                 if (attendance == null)
                 {
+                    // Create new attendance record for StartDate
                     attendance = new Attendance
                     {
                         ApplicantId = applicantId,
-                        Date = date,
-                        TimeInAM = now,
+                        Date = startDate,
+                        TimeInAM = DateTime.Parse($"{startDate:yyyy-MM-dd} 08:00:00"), // Example: fixed TimeInAM
                         TimeOutAM = null
                     };
                     _context.Attendances.Add(attendance);
@@ -208,60 +212,74 @@ namespace tupadportal.Controllers
                 {
                     if (attendance.TimeInAM == null)
                     {
-                        attendance.TimeInAM = now;
-                        _logger.LogInformation("Set TimeInAM: {time}", now);
+                        attendance.TimeInAM = DateTime.Parse($"{startDate:yyyy-MM-dd} 08:00:00"); // Example: fixed TimeInAM
+                        _logger.LogInformation("Set TimeInAM: {time}", attendance.TimeInAM);
                     }
-                    else if (attendance.TimeOutAM == null && (now - attendance.TimeInAM.Value).TotalMinutes >= 1)
+                    else if (attendance.TimeOutAM == null)
                     {
-                        attendance.TimeOutAM = now;
-                        _logger.LogInformation("Set TimeOutAM: {time}", now);
+                        attendance.TimeOutAM = DateTime.Parse($"{startDate:yyyy-MM-dd} 12:00:00"); // Example: fixed TimeOutAM
+                        _logger.LogInformation("Set TimeOutAM: {time}", attendance.TimeOutAM);
                     }
                     else
                     {
-                        _logger.LogWarning("All attendance times already recorded or insufficient time gap: now={now}");
-                        return BadRequest("Attendance for today has already been fully recorded or insufficient time gap between scans.");
+                        _logger.LogWarning("All attendance times already recorded for StartDate={startDate}");
+                        return BadRequest("Attendance for the specified StartDate has already been fully recorded.");
                     }
                 }
 
                 await _context.SaveChangesAsync();
-                await UpdateAttendanceChecklist(applicantId, date);
+                await UpdateAttendanceChecklist(applicantId, startDate);
 
-                _logger.LogInformation("Attendance marked successfully for applicantId={applicantId} on date={date}");
+                _logger.LogInformation("Attendance marked successfully for applicantId={applicantId} on StartDate={startDate}");
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error marking attendance for QR code message: {qrCodeMessage}", qrCodeMessageModel.qrCodeMessage);
+                _logger.LogError(ex, "Error processing QR code message: {qrCodeMessage}", qrCodeMessageModel.qrCodeMessage);
                 return StatusCode(500, "Internal server error. Please try again later.");
             }
         }
 
 
-        private async Task UpdateAttendanceChecklist(int applicantId, DateTime date)
+
+
+
+        private async Task UpdateAttendanceChecklist(int applicantId, DateTime qrCodeDate)
         {
+            // Find the corresponding checklist for the applicant
             var checklist = await _context.AttendanceChecklists
                 .FirstOrDefaultAsync(c => c.ApplicantId == applicantId);
+
+            // If checklist does not exist, return
             if (checklist == null) return;
 
-            int dayIndex = (date - checklist.StartDate).Days;
+            // Calculate the index of the day in the checklist based on the QR code date
+            int dayIndex = (qrCodeDate - checklist.StartDate).Days;
+
+            // Check if the day index is valid (between 0 and 9)
             if (dayIndex >= 0 && dayIndex < 10)
             {
+                // Find the attendance for the given applicant and date
                 var attendance = await _context.Attendances
-                    .FirstOrDefaultAsync(a => a.ApplicantId == applicantId && a.Date.Date == date.Date);
+                    .FirstOrDefaultAsync(a => a.ApplicantId == applicantId && a.Date.Date == qrCodeDate.Date);
 
+                // If attendance is found and the required time-in/out is recorded
                 if (attendance != null &&
                     attendance.TimeInAM.HasValue &&
                     attendance.TimeOutAM.HasValue)
                 {
+                    // Update the checklist days as checked for the corresponding day
                     var daysChecked = checklist.DaysChecked;
                     daysChecked[dayIndex] = true;
                     checklist.DaysChecked = daysChecked;
                 }
             }
 
+            // Save changes to the context
             await _context.SaveChangesAsync();
         }
+
 
         [HttpPost("SaveSignature")]
         public async Task<IActionResult> SaveSignature([FromBody] SignatureModel model)
