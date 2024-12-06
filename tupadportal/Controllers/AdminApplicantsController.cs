@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -224,9 +224,47 @@ namespace tupadportal.Controllers
         }
 
         // POST: AdminApplicants/Approve/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Approve(int id)
+        //{
+        //    var applicant = await _context.Applicants
+        //                                  .Include(a => a.Address)
+        //                                  .FirstOrDefaultAsync(a => a.ApplicantId == id);
+        //    if (applicant == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    applicant.Approved = true;
+        //    _context.Update(applicant);
+        //    await _context.SaveChangesAsync();
+
+        //    // Create an announcement
+        //    var announcement = new Announcement
+        //    {
+        //        Title = "Applicant Approved",
+        //        Description = $"Applicant {applicant.FirstName} {applicant.LastName} has been approved.",
+        //        CreatedDate = DateTime.Now,
+        //        AddressId = applicant.AddressId,
+        //        Read = false
+        //    };
+        //    _context.Announcements.Add(announcement);
+        //    await _context.SaveChangesAsync();
+
+        //    // Add to AttendanceChecklist
+        //    var currentDate = DateTime.Today;
+        //    await AddToAttendanceChecklist(id, currentDate);
+
+        //    // Send email to Brgy user
+        //    await SendEmailToBrgyUser(applicant);
+
+        //    TempData["SuccessMessage"] = "Applicant successfully Approved!";
+        //    return RedirectToAction(nameof(Index));
+        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Approve(int id)
+        public async Task<IActionResult> Approve(int id, DateTime startDate)
         {
             var applicant = await _context.Applicants
                                           .Include(a => a.Address)
@@ -253,8 +291,7 @@ namespace tupadportal.Controllers
             await _context.SaveChangesAsync();
 
             // Add to AttendanceChecklist
-            var currentDate = DateTime.Today;
-            await AddToAttendanceChecklist(id, currentDate);
+            await AddToAttendanceChecklist(id, startDate);
 
             // Send email to Brgy user
             await SendEmailToBrgyUser(applicant);
@@ -301,10 +338,31 @@ namespace tupadportal.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //private async Task AddToAttendanceChecklist(int applicantId, DateTime startDate)
+        //{
+        //    var checklist = await _context.AttendanceChecklists
+        //                                  .FirstOrDefaultAsync(c => c.ApplicantId == applicantId && c.StartDate <= startDate && c.EndDate >= startDate);
+
+        //    if (checklist == null)
+        //    {
+        //        checklist = new AttendanceChecklist
+        //        {
+        //            ApplicantId = applicantId,
+        //            StartDate = startDate,
+        //            EndDate = startDate.AddDays(9),
+        //            DaysCheckedSerialized = "false,false,false,false,false,false,false,false,false,false",
+        //        };
+        //        _context.AttendanceChecklists.Add(checklist);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //}
+
+
         private async Task AddToAttendanceChecklist(int applicantId, DateTime startDate)
         {
             var checklist = await _context.AttendanceChecklists
-                                          .FirstOrDefaultAsync(c => c.ApplicantId == applicantId && c.StartDate <= startDate && c.EndDate >= startDate);
+                                          .FirstOrDefaultAsync(c => c.ApplicantId == applicantId && c.StartDate == startDate);
 
             if (checklist == null)
             {
