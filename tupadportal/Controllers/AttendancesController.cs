@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QRCoder;
@@ -174,6 +174,13 @@ namespace tupadportal.Controllers
                     return BadRequest("Invalid QR Code data.");
                 }
 
+                // Check if the date matches the current date
+                if (date.Date != DateTime.Now.Date)
+                {
+                    _logger.LogWarning("Attendance date does not match the current date: providedDate={date}, currentDate={DateTime.Now.Date}");
+                    return BadRequest("Attendance can only be marked for the current date.");
+                }
+
                 var applicant = await _context.Applicants.FindAsync(applicantId);
                 if (applicant == null)
                 {
@@ -225,10 +232,11 @@ namespace tupadportal.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Attendance for QR code message: {qrCodeMessage}", qrCodeMessageModel.qrCodeMessage);
+                _logger.LogError(ex, "Error marking attendance for QR code message: {qrCodeMessage}", qrCodeMessageModel.qrCodeMessage);
                 return StatusCode(500, "Internal server error. Please try again later.");
             }
         }
+
 
         private async Task UpdateAttendanceChecklist(int applicantId, DateTime date)
         {
