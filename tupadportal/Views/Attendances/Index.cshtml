@@ -1,4 +1,4 @@
-﻿@model IEnumerable<tupadportal.Models.AttendanceChecklist>
+@model IEnumerable<tupadportal.Models.AttendanceChecklist>
 @using tupadportal.Data
 @inject ApplicationDbContext _context
 
@@ -8,20 +8,19 @@
 
 <div class="row my-5">
     <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
-        <!-- Row for the title, batch filter, and QR code button -->
+        <!-- Header Row: Title, Batch Filter, and QR Code Button -->
         <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
             <h2 class="text-decoration-underline mb-0">Attendance Checklist</h2>
 
-            <!-- Batch Filter Form and QR Code Button -->
             <div class="d-flex flex-wrap justify-content-end">
-                <!-- Batch Filter Form -->
+                <!-- Batch Filter Dropdown -->
                 <form method="get" asp-action="Index" class="d-flex me-2">
                     <select name="batchId" class="form-select form-select-sm me-2" asp-items="ViewBag.BatchId" onchange="this.form.submit()">
                         <option value="">All Batches</option>
                     </select>
                 </form>
 
-                <!-- Scan QR Code Button -->
+                <!-- QR Code Button -->
                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#qrScannerModal">
                     <i class="bi bi-qr-code-scan me-2"></i> Scan QR Code
                 </button>
@@ -30,14 +29,14 @@
 
         <hr />
 
-        <!-- Attendance Checklist Table (Responsive) -->
+        <!-- Attendance Checklist Table -->
         <div class="table-responsive">
             <table class="table table-striped mt-3">
                 <thead>
                     <tr>
                         <th>No.</th>
                         <th>Name</th>
-                        <!-- Loop through 10 days and display dates vertically -->
+                        <!-- Display Start Dates for 10 days -->
                         @for (var day = 0; day < 10; day++)
                         {
                             <th style="writing-mode: vertical-lr; transform: rotate(180deg);">
@@ -54,7 +53,7 @@
                         <tr>
                             <td>@checklist.ChecklistId</td>
                             <td>@checklist.Applicant?.FirstName @checklist.Applicant?.LastName</td>
-                            <!-- Display attendance and signature for each day -->
+                            <!-- Display Attendance or Signature for Each Day -->
                             @for (var day = 0; day < 10; day++)
                             {
                                 var date = checklist.StartDate.AddDays(day).Date;
@@ -97,6 +96,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- QR Scanner Modal -->
 <div class="modal fade" id="qrScannerModal" tabindex="-1" aria-labelledby="qrScannerModalLabel" aria-hidden="true">
