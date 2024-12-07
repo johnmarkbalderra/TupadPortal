@@ -251,12 +251,14 @@ new SelectListItem { Value = "Malinaw Norte", Text = "Malinaw Norte" }
                 values: new { area = "Identity", userId = userId, code = code },
                 protocol: Request.Scheme);
 
-            var response = await _fluentEmail
-                .To(Input.Email)
-                .Subject("Confirm your email")
-                .UsingTemplateFromFile(Path.Combine(Directory.GetCurrentDirectory(), "Views", "Emails", "EmailConfirmation.cshtml"),
-                    new { Name = Input.FirstName, ConfirmationLink = callbackUrl })
-                .SendAsync();
+           var templatePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "Emails", "EmailConfirmation.cshtml");
+
+var response = await _fluentEmail
+    .To(Input.Email)
+    .Subject("Confirm your email")
+    .UsingTemplateFromFile(templatePath,
+        new { Name = Input.FirstName, ConfirmationLink = callbackUrl })
+    .SendAsync();
 
             if (response.Successful)
             {
