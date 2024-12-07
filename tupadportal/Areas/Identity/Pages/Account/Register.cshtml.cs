@@ -254,7 +254,7 @@ new SelectListItem { Value = "Malinaw Norte", Text = "Malinaw Norte" }
                     var response = await _fluentEmail
                         .To(Input.Email)
                         .Subject("Confirm your email")
-                        .UsingTemplateFromFile($"{Directory.GetCurrentDirectory()}/Views/Emails/EmailConfirmation.cshtml",
+                        .UsingTemplateFromFile($"{Directory.GetCurrentDirectory()}./Views/Emails/EmailConfirmation.cshtml",
                             new { Name = Input.FirstName, ConfirmationLink = callbackUrl })
                         .SendAsync();
 
