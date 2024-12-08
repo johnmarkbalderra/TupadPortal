@@ -191,6 +191,14 @@ namespace tupadportal.Controllers
                 }
 
                 var startDate = checklist.StartDate.Date; // Use the specific StartDate
+                var currentDate = DateTime.Now.Date; // Get today's date
+
+                // Validate if StartDate matches the current date
+                if (startDate != currentDate)
+                {
+                    _logger.LogWarning("StartDate does not match the current date. Attendance not recorded for applicantId={applicantId}");
+                    return BadRequest("Attendance can only be recorded on the specified StartDate.");
+                }
 
                 // Fetch attendance record for the specific StartDate
                 var attendance = await _context.Attendances
@@ -198,26 +206,37 @@ namespace tupadportal.Controllers
 
                 if (attendance == null)
                 {
-                    // Create new attendance record for StartDate
+                    // Create new attendance record for StartDate with TimeInAM as current time
                     attendance = new Attendance
                     {
                         ApplicantId = applicantId,
                         Date = startDate,
-                        TimeInAM = DateTime.Parse($"{startDate:yyyy-MM-dd} 08:00:00"), // Example: fixed TimeInAM
+                        TimeInAM = DateTime.Now, // Save the current time
                         TimeOutAM = null
                     };
                     _context.Attendances.Add(attendance);
+                    _logger.LogInformation("TimeInAM saved: {time}", attendance.TimeInAM);
                 }
                 else
                 {
+                    var currentTime = DateTime.Now;
+
                     if (attendance.TimeInAM == null)
                     {
-                        attendance.TimeInAM = DateTime.Parse($"{startDate:yyyy-MM-dd} 08:00:00"); // Example: fixed TimeInAM
+                        attendance.TimeInAM = currentTime; // Save the current time for TimeIn
                         _logger.LogInformation("Set TimeInAM: {time}", attendance.TimeInAM);
                     }
                     else if (attendance.TimeOutAM == null)
                     {
-                        attendance.TimeOutAM = DateTime.Parse($"{startDate:yyyy-MM-dd} 12:00:00"); // Example: fixed TimeOutAM
+                        // Ensure at least 1 minute has passed since TimeInAM
+                        var timeDifference = currentTime - attendance.TimeInAM.Value;
+                        if (timeDifference.TotalMinutes < 1)
+                        {
+                            _logger.LogWarning("TimeOutAM cannot be saved within 1 minute of TimeInAM. TimeDifference={timeDifference}", timeDifference.TotalSeconds);
+                            return BadRequest("You can only record TimeOutAM at least 1 minute after TimeInAM.");
+                        }
+
+                        attendance.TimeOutAM = currentTime; // Save the current time for TimeOut
                         _logger.LogInformation("Set TimeOutAM: {time}", attendance.TimeOutAM);
                     }
                     else
@@ -240,9 +259,6 @@ namespace tupadportal.Controllers
                 return StatusCode(500, "Internal server error. Please try again later.");
             }
         }
-
-
-
 
 
         private async Task UpdateAttendanceChecklist(int applicantId, DateTime qrCodeDate)
