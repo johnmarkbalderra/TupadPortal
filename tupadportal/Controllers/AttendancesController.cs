@@ -11,6 +11,10 @@ using tupadportal.Data;
 using tupadportal.Models;
 using Microsoft.AspNetCore.WebUtilities; // Added for QueryHelpers
 using Microsoft.AspNetCore.Mvc.Rendering; // Add this line
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
+
 
 namespace tupadportal.Controllers
 {
@@ -144,19 +148,68 @@ namespace tupadportal.Controllers
                 return NotFound("Applicant not approved or does not exist.");
             }
 
+            // Combine applicant details into QR code text
             var date = DateTime.Now.AddDays(daysAhead).ToString("yyyy-MM-dd");
             var qrText = Url.Action("ScanQRCode", "Attendances", new { applicantId, date }, Request.Scheme);
+
+            // Add applicant details to the QR content
+            var qrContent = $"{qrText}\n" +
+                            $"Name: {applicant.FirstName} {applicant.MiddleName} {applicant.LastName}";
+
             using (var qrGenerator = new QRCodeGenerator())
-            using (var qrCodeData = qrGenerator.CreateQrCode(qrText, QRCodeGenerator.ECCLevel.Q))
+            using (var qrCodeData = qrGenerator.CreateQrCode(qrContent, QRCodeGenerator.ECCLevel.Q))
             using (var qrCode = new QRCode(qrCodeData))
-            using (var bitmap = qrCode.GetGraphic(20))
-            using (var stream = new MemoryStream())
+            using (var qrBitmap = qrCode.GetGraphic(20))
             {
-                bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                var qrCodeImage = stream.ToArray();
-                return File(qrCodeImage, "image/png", $"QRCode_{applicantId}.png");
+                // Create a new bitmap to overlay text
+                var finalImage = new Bitmap(qrBitmap.Width, qrBitmap.Height + 50); // Extra space for the text
+                using (var graphics = Graphics.FromImage(finalImage))
+                {
+                    // Fill background with white
+                    graphics.Clear(Color.White);
+
+                    // Draw the QR code on the new image
+                    graphics.DrawImage(qrBitmap, new Point(0, 0));
+
+                    // Add the applicant's name below the QR code
+                    var text = $"{applicant.FirstName} {applicant.MiddleName} {applicant.LastName}";
+
+                    // Dynamically calculate font size to fit the QR code width
+                    float fontSize = 50; // Start with a default size
+                    Font font;
+                    SizeF textSize;
+
+                    do
+                    {
+                        font = new Font("Arial", fontSize, FontStyle.Bold);
+                        textSize = graphics.MeasureString(text, font);
+                        if (textSize.Width > qrBitmap.Width)
+                        {
+                            fontSize -= 5; // Reduce font size if text exceeds the QR code width
+                        }
+                    } while (textSize.Width > qrBitmap.Width && fontSize > 1);
+
+                    var textBrush = new SolidBrush(Color.Black);
+
+                    // Center the text horizontally and position it below the QR code
+                    var textPosition = new PointF(
+                        (finalImage.Width - textSize.Width) / 2, // Center horizontally
+                        qrBitmap.Height + -30                   // Position below QR code
+                    );
+
+                    graphics.DrawString(text, font, textBrush, textPosition);
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    finalImage.Save(stream, ImageFormat.Png);
+                    var qrCodeImage = stream.ToArray();
+                    return File(qrCodeImage, "image/png", $"QRCode_{applicantId}.png");
+                }
             }
         }
+
+
 
         [HttpPost("MarkAttendanceByQRCode")]
         public async Task<IActionResult> MarkAttendanceByQRCode([FromBody] QRCodeMessageModel qrCodeMessageModel)
