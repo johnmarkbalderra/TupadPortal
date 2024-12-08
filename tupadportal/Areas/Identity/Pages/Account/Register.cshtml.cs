@@ -21,14 +21,12 @@ using System.Net.Mail;
 using Microsoft.Extensions.DependencyInjection;
 using tupadportal.Data;
 using tupadportal.Models;
-using System.Configuration;
 
 namespace tupadportal.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly IConfiguration _configuration;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
@@ -38,7 +36,6 @@ namespace tupadportal.Areas.Identity.Pages.Account
         private readonly ApplicationDbContext _context;
 
         public RegisterModel(
-            IConfiguration configuration,
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
@@ -46,7 +43,6 @@ namespace tupadportal.Areas.Identity.Pages.Account
             IFluentEmail fluentEmail,
             ApplicationDbContext context)
         {
-            _configuration = configuration;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
@@ -245,35 +241,36 @@ new SelectListItem { Value = "Malinaw Norte", Text = "Malinaw Norte" }
                     await _userManager.AddToRoleAsync(user, "brgy");
                     _logger.LogInformation("User created a new account with password.");
 
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var userId = await _userManager.GetUserIdAsync(user); // Get the user ID
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user); // Generate the confirmation token
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code)); // Encode the token in Base64
 
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code },
+                        values: new { area = "Identity", userId = userId, code = code }, // Pass the userId and the token in the link
                         protocol: Request.Scheme);
 
-                    var emailTemplatePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "Emails", "EmailConfirmation.cshtml");
+                    // Inline Email Template as a string
+                    var emailTemplate = @"
+                <html>
+                    <body>
+                        <h2>Hello @Model.Name,</h2>
+                        <p>Thank you for registering with our portal. To complete your registration, please confirm your email by clicking the link below:</p>
+                        <p><a href='@Model.ConfirmationLink'>Confirm Email</a></p>
+                        <p>If the above link doesn't work, copy and paste the following URL into your browser:</p>
+                        <p>@Model.ConfirmationLink</p>
+                        <br>
+                        <p>Thank you,<br>The TUPAD Portal Team</p>
+                    </body>
+                </html>";
 
-                    // Fetch SMTP settings directly from appsettings.json
-                    var smtpSettings = _configuration.GetSection("SmtpSettings");
-                    var smtpHost = smtpSettings["Host"];
-                    var smtpPort = int.Parse(smtpSettings["Port"]);
-                    var smtpUser = smtpSettings["User"];
-                    var smtpPassword = smtpSettings["Password"];
-                    var enableSsl = bool.Parse(smtpSettings["EnableSsl"]);
-                    var fromEmail = smtpSettings["From"];
-                    var senderName = smtpSettings["SenderName"];
-
-                    var email = FluentEmail.Core.Email
-                        .From(fromEmail, senderName)
+                    // Send the email
+                    var response = await _fluentEmail
                         .To(Input.Email)
                         .Subject("Confirm your email")
-                        .UsingTemplateFromFile(emailTemplatePath, new { Name = Input.FirstName, ConfirmationLink = callbackUrl });
-
-                    var response = await email.SendAsync();
+                        .UsingTemplate(emailTemplate, new { Name = Input.FirstName, ConfirmationLink = callbackUrl })
+                        .SendAsync();
 
                     if (response.Successful)
                     {
