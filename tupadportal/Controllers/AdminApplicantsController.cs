@@ -65,27 +65,41 @@ namespace tupadportal.Controllers
         }
 
         // GET: AdminApplicants/Search
-        public async Task<IActionResult> Search(string searchQuery, string barangay, int? batchId)
+        [HttpGet]
+        public IActionResult Search(string searchQuery, string barangay, string batchId)
         {
+            // Fetch all applicants
             var applicants = _context.Applicants.AsQueryable();
 
-            if (!string.IsNullOrEmpty(searchQuery))
+            // Apply search filter
+            if (!string.IsNullOrWhiteSpace(searchQuery))
             {
-                applicants = applicants.Where(a => a.FirstName.Contains(searchQuery) || a.LastName.Contains(searchQuery));
+                applicants = applicants.Where(a =>
+                    a.FirstName.Contains(searchQuery) ||
+                    a.LastName.Contains(searchQuery) ||
+                    a.Barangay.Contains(searchQuery));
             }
 
-            if (!string.IsNullOrEmpty(barangay))
+            // Apply Barangay filter
+            if (!string.IsNullOrWhiteSpace(barangay))
             {
                 applicants = applicants.Where(a => a.Barangay == barangay);
             }
 
-            if (batchId.HasValue)
+            // Apply Batch filter
+            if (!string.IsNullOrWhiteSpace(batchId))
             {
-                applicants = applicants.Where(a => a.BatchId == batchId.Value);
+                if (int.TryParse(batchId, out var parsedBatchId))
+                {
+                    applicants = applicants.Where(a => a.BatchId == parsedBatchId);
+                }
             }
 
-            return PartialView("_ApplicantListPartial", await applicants.ToListAsync());
+            // Return filtered results to partial view
+            return PartialView("_ApplicantListPartial", applicants.ToList());
         }
+
+
 
         // GET: AdminApplicants/Details/5
         public async Task<IActionResult> Details(int? id)
