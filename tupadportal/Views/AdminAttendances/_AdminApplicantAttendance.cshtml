@@ -1,34 +1,31 @@
-﻿@model IEnumerable<tupadportal.Models.Attendance>
+@model dynamic
 
-<div class="modal-header bg-info">
-    <h5 class="modal-title">Attendance Management</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-</div>
-<div class="modal-body">
-    <h4 class="text-decoration-underline">Attendance Details</h4>
+@{
+    var applicant = Model.Applicant;
+    var attendances = Model.Attendances;
+}
 
-    <table class="table">
-        <thead>
+@* <h3>Name: @applicant.FirstName @applicant.LastName</h3> *@
+<p><strong>Name:</strong>  @applicant.FirstName @applicant.LastName</p>
+<p><strong>Address:</strong> @applicant.Barangay</p>
+<p><strong>Tupad ID No.:</strong> _____________________</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time In AM</th>
+            <th>Time Out AM</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var attendance in attendances)
+        {
             <tr>
-                <th>Applicant</th>
-                <th>Date</th>
-                <th>Time In AM</th>
-                <th>Time Out AM</th>
+                <td>@attendance.Date.ToString("MMMM dd, yyyy")</td>
+                <td>@(attendance.TimeInAM.HasValue ? attendance.TimeInAM.Value.ToString("hh:mm tt") : "N/A")</td>
+                <td>@(attendance.TimeOutAM.HasValue ? attendance.TimeOutAM.Value.ToString("hh:mm tt") : "N/A")</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var attendance in Model)
-            {
-                <tr>
-                    <td>@attendance.Applicant.FirstName @attendance.Applicant.LastName</td>
-                    <td>@attendance.Date.ToShortDateString()</td>
-                    <td>@(attendance.TimeInAM.HasValue ? attendance.TimeInAM.Value.ToShortTimeString() : "00:00")</td>
-                    <td>@(attendance.TimeOutAM.HasValue ? attendance.TimeOutAM.Value.ToShortTimeString() : "00:00")</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-</div>
+        }
+    </tbody>
+</table>
