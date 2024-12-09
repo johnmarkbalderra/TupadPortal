@@ -1,4 +1,4 @@
-﻿@model IEnumerable<tupadportal.Models.AttendanceChecklist>
+@model IEnumerable<tupadportal.Models.AttendanceChecklist>
 
 @{
     ViewData["Title"] = "Attendance Checklist";
@@ -108,7 +108,7 @@
 
 
 <!-- Attendance Modal -->
-<div class="modal fade" id="attendanceModal" tabindex="-1" aria-labelledby="attendanceModalLabel" aria-hidden="true">
+@* <div class="modal fade" id="attendanceModal" tabindex="-1" aria-labelledby="attendanceModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content" id="attendanceModalContent">
             <!-- Content will be loaded here via AJAX -->
@@ -119,7 +119,36 @@
             </div>
         </div>
     </div>
+</div> *@
+
+
+<!-- Applicant Attendance Modal -->
+<div class="modal fade" id="attendanceModal" tabindex="-1" aria-labelledby="attendanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Applicant Attendance</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="attendanceModalBody">
+                <!-- Attendance details will be loaded here via AJAX -->
+                <div id="attendanceModalContent">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @* <button type="button" class="btn btn-primary" onclick="printModalContent()">Print</button> *@
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+
 
 <!-- Signature Modal -->
 <div class="modal fade" id="signatureModal" tabindex="-1" aria-labelledby="signatureModalLabel" aria-hidden="true">
@@ -146,6 +175,57 @@
 
     <!-- Signature Pad Library -->
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <!-- JavaScript to handle printing -->
+    @* <script> *@
+    @*     function printModalContent() { *@
+    @*         const modalBody = document.getElementById('attendanceModalBody'); *@
+    @*         if (!modalBody) { *@
+    @*             console.error('Modal body not found'); *@
+    @*             return; *@
+    @*         } *@
+
+    @*         const printContent = modalBody.innerHTML; *@
+    @*         const printWindow = window.open('', '_blank', 'width=800,height=600'); *@
+
+    @*         if (!printWindow) { *@
+    @*             console.error('Failed to open print window'); *@
+    @*             return; *@
+    @*         } *@
+
+    @*         printWindow.document.open(); *@
+    @*         printWindow.document.write(` *@
+    @*             <html> *@
+    @*                 <head> *@
+    @*                     <title>Print Attendance</title> *@
+    @*                     <style> *@
+    @*                         body { *@
+    @*                             font-family: Arial, sans-serif; *@
+    @*                             margin: 20px; *@
+    @*                         } *@
+    @*                         .table { *@
+    @*                             border-collapse: collapse; *@
+    @*                             width: 100%; *@
+    @*                         } *@
+    @*                         .table th, .table td { *@
+    @*                             border: 1px solid #ddd; *@
+    @*                             padding: 8px; *@
+    @*                         } *@
+    @*                         .table th { *@
+    @*                             background-color: #f2f2f2; *@
+    @*                             text-align: left; *@
+    @*                         } *@
+    @*                     </style> *@
+    @*                 </head> *@
+    @*                 <body> *@
+    @*                     <h2>Applicant Attendance</h2> *@
+    @*                     ${printContent} *@
+    @*                 </body> *@
+    @*             </html> *@
+    @*         `); *@
+    @*         printWindow.document.close(); *@
+    @*         printWindow.print(); *@
+    @*     } *@
+    @* </script> *@
 
     <script>
         // QR Code Scanner Scripts
@@ -333,5 +413,8 @@
                 filterAndSortTable(); // Reapply sorting after setting the option
             });
         });
+
     </script>
+
+
 }
