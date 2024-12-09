@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,21 +33,61 @@ namespace tupadportal.Controllers
             return View(checklists);
         }
 
+        //[HttpGet("ApplicantAttendance/{applicantId}")]
+        //public async Task<IActionResult> AdminApplicantAttendance(int applicantId)
+        //{
+        //    var attendances = await _context.Attendances
+        //                                    .Include(a => a.Applicant)
+        //                                    .Where(a => a.ApplicantId == applicantId)
+        //                                    .ToListAsync();
+
+        //    if (Request.IsAjaxRequest())
+        //    {
+        //        return PartialView("_AdminApplicantAttendance", attendances);
+        //    }
+
+        //    return View(attendances);
+        //}
+        // NEW: Action to return the partial view for Applicant Attendance
         [HttpGet("ApplicantAttendance/{applicantId}")]
         public async Task<IActionResult> AdminApplicantAttendance(int applicantId)
         {
-            var attendances = await _context.Attendances
-                                            .Include(a => a.Applicant)
-                                            .Where(a => a.ApplicantId == applicantId)
-                                            .ToListAsync();
+            // Get the current logged-in user
+            var userId = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
-            if (Request.IsAjaxRequest())
+            if (user == null)
             {
-                return PartialView("_AdminApplicantAttendance", attendances);
+                return Unauthorized("User not found.");
             }
 
-            return View(attendances);
+            // Find the applicant by applicantId
+            var applicant = await _context.Applicants
+                                           .Include(a => a.Attendances)
+                                           .FirstOrDefaultAsync(a => a.ApplicantId == applicantId);
+
+            if (applicant == null)
+            {
+                return NotFound("Applicant not found.");
+            }
+
+            // Fetch the attendance records for the applicant
+            var attendances = applicant.Attendances.ToList();
+
+            // Return the partial view with attendance data
+            return PartialView("_AdminApplicantAttendance", new
+            {
+                Applicant = new
+                {
+                    applicant.FirstName,
+                    applicant.LastName,
+                    applicant.Barangay
+                },
+                Attendances = attendances
+            });
         }
+
+
 
         // Other actions...
     }
