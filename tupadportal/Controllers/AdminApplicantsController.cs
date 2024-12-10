@@ -27,7 +27,37 @@ namespace tupadportal.Controllers
             _userManager = userManager;
         }
 
-       
+        [HttpGet]
+        public IActionResult GetBatches(string barangay)
+        {
+            var batches = _context.Applicants
+                .Where(a => a.Barangay == barangay)
+                .Select(a => new { BatchId = a.BatchId, BatchName = $"Batch {a.BatchId}" })
+                .Distinct()
+                .ToList();
+
+            return Json(batches);
+        }
+
+
+        public IActionResult GetFilteredApplicants(string barangay, int? batchId)
+        {
+            var applicants = _context.Applicants.AsQueryable();
+
+            if (!string.IsNullOrEmpty(barangay))
+            {
+                applicants = applicants.Where(a => a.Barangay == barangay);
+            }
+
+            if (batchId.HasValue)
+            {
+                applicants = applicants.Where(a => a.BatchId == batchId.Value);
+            }
+
+            return PartialView("_ApplicantsListPartial", applicants.ToList());
+        }
+
+
 
         public async Task<IActionResult> Index(string sortColumn, string sortOrder)
         {
