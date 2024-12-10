@@ -1,9 +1,17 @@
-﻿@model IEnumerable<tupadportal.Models.Applicants>
+@model IEnumerable<tupadportal.Models.Applicants>
 
 <!-- Responsive Table for Applicants List -->
 <div class="table-responsive">
     <table class="table table-hover">
-        
+        <thead class="table-light">
+            <tr>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Barangay</th>
+                <th>Approved</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
         <tbody>
             @foreach (var item in Model)
             {
