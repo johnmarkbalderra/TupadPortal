@@ -279,12 +279,50 @@
     }
 
     <script>
+                document.addEventListener("DOMContentLoaded", function () {
+            const barangayFilter = document.getElementById("barangayFilter");
+            const batchFilter = document.getElementById("batchFilter");
+
+            const loadApplicants = () => {
+                const barangay = barangayFilter.value;
+                const batchId = batchFilter.value;
+
+                fetch(`/YourController/GetFilteredApplicants?barangay=${encodeURIComponent(barangay)}&batchId=${batchId}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById("applicantList").innerHTML = html;
+                    })
+                    .catch(error => console.error("Error loading applicants:", error));
+            };
+
+            barangayFilter.addEventListener("change", loadApplicants);
+            batchFilter.addEventListener("change", loadApplicants);
+        });
+
+
                 function filterApplicants() {
             let searchQuery = document.getElementById('searchApplicant').value;
             let barangay = document.getElementById('barangayFilter').value;
-            let batchId = document.getElementById('batchFilter').value;
 
-            fetch(`/AdminApplicants/Search?searchQuery=${encodeURIComponent(searchQuery)}&barangay=${encodeURIComponent(barangay)}&batchId=${encodeURIComponent(batchId)}`)
+            // Fetch relevant batches for the selected Barangay
+            fetch(`/AdminApplicants/GetBatches?barangay=${encodeURIComponent(barangay)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error fetching batches.");
+                    }
+                    return response.json(); // Expect JSON response with batch options
+                })
+                .then(batches => {
+                    const batchFilter = document.getElementById('batchFilter');
+                    batchFilter.innerHTML = `<option value="">All Batches</option>`; // Reset batch options
+                    batches.forEach(batch => {
+                        batchFilter.innerHTML += `<option value="${batch.batchId}">Batch ${batch.batchName}</option>`;
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+
+            // Fetch applicants list with filters
+            fetch(`/AdminApplicants/Search?searchQuery=${encodeURIComponent(searchQuery)}&barangay=${encodeURIComponent(barangay)}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("Error fetching search results.");
