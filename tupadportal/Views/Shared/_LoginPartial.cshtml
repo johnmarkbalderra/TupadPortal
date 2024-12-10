@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity
 @using tupadportal.Models
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -20,6 +20,11 @@
     {
         if (User.IsInRole("admin"))
         {
+            <li class="nav-item">
+                <a class="nav-link text-black btn btn-sm btn d-flex align-items-center" asp-controller="Dashboard" asp-action="Index">
+                    <i class="bi bi-home me-2"></i> Home
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link text-black btn btn-sm btn d-flex align-items-center" asp-controller="AdminAttendances" asp-action="Index">
                     <i class="bi bi-calendar-check me-2"></i> Attendance
