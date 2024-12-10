@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Tupad";
 }
 
@@ -16,7 +16,7 @@
 
     if (roles.Contains("admin"))
     {
-        Context.Response.Redirect(Url.Action("Index", "Addresses"));
+        Context.Response.Redirect(Url.Action("Index", "Dashboard"));
     }
     else if (roles.Contains("brgy"))
     {
