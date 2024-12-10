@@ -1,0 +1,21 @@
+﻿@model List<tupadportal.Models.Applicants>
+
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Barangay</th>
+            <th>Approved</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var applicant in Model)
+        {
+            <tr>
+                <td>@applicant.FirstName @applicant.LastName</td>
+                <td>@applicant.Address?.Barangay</td>
+                <td>@(applicant.Approved ? "Yes" : "No")</td>
+            </tr>
+        }
+    </tbody>
+</table>

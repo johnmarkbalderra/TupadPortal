@@ -1,0 +1,148 @@
+﻿@model tupadportal.ViewModels.DashboardViewModel
+
+<div class="row my-5">
+    <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
+        <div class="container mt-4">
+            <h2 class="mb-4">TUPAD Portal</h2>
+
+            <!-- Cards -->
+            <div class="row mb-4">
+                <!-- Card: Total Applicants -->
+                <div class="col-md-4">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Applicants</h5>
+                            <p class="card-text display-4">@Model.TotalApplicants</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Approved Applicants -->
+                <div class="col-md-4">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Approved Applicants</h5>
+                            <p class="card-text display-4">@Model.ApprovedApplicants</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="row mb-3">
+                <!-- Barangay Filter -->
+                <div class="col-md-6">
+                    <label for="barangayFilter" class="form-label">Filter by Barangay</label>
+                    <select id="barangayFilter" class="form-select">
+                        <option value="all" selected>All Barangays</option>
+                        @foreach (var barangay in Model.Barangays)
+                        {
+                            <option value="@barangay">@barangay</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Batch Filter -->
+                <div class="col-md-6">
+                    <label for="batchFilter" class="form-label">Filter by Batch</label>
+                    <select id="batchFilter" class="form-select" disabled>
+                        <option value="all" selected>All Batches</option>
+                        @foreach (var batch in Model.Batches)
+                        {
+                            <option value="@batch.BatId" data-barangay="@batch.Address.Barangay">@batch.BatchName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" id="applicantsTable">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Barangay</th>
+                            <th>Batch</th>
+                            <th>Approved Applicants / Total Applicants</th>
+                            <th>Given Slot</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var barangay in Model.Barangays)
+                        {
+                            @foreach (var batch in Model.Batches)
+                            {
+                                var totalApplicants = Model.Applicants.Count(a => a.Address.Barangay == barangay && a.BatchId == batch.BatId);
+                                var approvedApplicants = Model.Applicants.Count(a => a.Address.Barangay == barangay && a.BatchId == batch.BatId && a.Approved);
+
+                                if (totalApplicants > 0)
+                                {
+                                    <tr data-barangay="@barangay" data-batch="@batch.BatId">
+                                        <td>@barangay</td>
+                                        <td>@batch.BatchName</td>
+                                        <td>@approvedApplicants / @totalApplicants</td>
+                                        <td>@batch.Slot</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const barangayFilter = document.getElementById("barangayFilter");
+        const batchFilter = document.getElementById("batchFilter");
+        const tableRows = document.querySelectorAll("#applicantsTable tbody tr");
+
+        // Dynamically filter table rows
+        function filterTable() {
+            const selectedBarangay = barangayFilter.value;
+            const selectedBatch = batchFilter.value;
+
+            tableRows.forEach(row => {
+                const rowBarangay = row.getAttribute("data-barangay");
+                const rowBatch = row.getAttribute("data-batch");
+
+                const barangayMatch = selectedBarangay === "all" || rowBarangay === selectedBarangay;
+                const batchMatch = selectedBatch === "all" || rowBatch === selectedBatch;
+
+                if (barangayMatch && batchMatch) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+
+        // Dynamically update batch options
+        function updateBatchOptions() {
+            const selectedBarangay = barangayFilter.value;
+            const batchOptions = batchFilter.querySelectorAll("option");
+
+            batchFilter.disabled = selectedBarangay === "all";
+
+            batchOptions.forEach(option => {
+                const optionBarangay = option.getAttribute("data-barangay");
+
+                if (selectedBarangay === "all" || optionBarangay === selectedBarangay) {
+                    option.style.display = "";
+                } else {
+                    option.style.display = "none";
+                }
+            });
+
+            batchFilter.value = "all"; // Reset to default
+            filterTable(); // Apply filtering on table
+        }
+
+        barangayFilter.addEventListener("change", () => {
+            updateBatchOptions();
+        });
+
+        batchFilter.addEventListener("change", filterTable);
+    });
+</script>
