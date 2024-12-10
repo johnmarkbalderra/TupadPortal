@@ -382,25 +382,6 @@ namespace tupadportal.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //private async Task AddToAttendanceChecklist(int applicantId, DateTime startDate)
-        //{
-        //    var checklist = await _context.AttendanceChecklists
-        //                                  .FirstOrDefaultAsync(c => c.ApplicantId == applicantId && c.StartDate <= startDate && c.EndDate >= startDate);
-
-        //    if (checklist == null)
-        //    {
-        //        checklist = new AttendanceChecklist
-        //        {
-        //            ApplicantId = applicantId,
-        //            StartDate = startDate,
-        //            EndDate = startDate.AddDays(9),
-        //            DaysCheckedSerialized = "false,false,false,false,false,false,false,false,false,false",
-        //        };
-        //        _context.AttendanceChecklists.Add(checklist);
-        //    }
-
-        //    await _context.SaveChangesAsync();
-        //}
 
 
         private async Task AddToAttendanceChecklist(int applicantId, DateTime startDate)
