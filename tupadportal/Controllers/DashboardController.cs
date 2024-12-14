@@ -22,14 +22,15 @@ namespace tupadportal.Controllers
             var applicants = await _context.Applicants
                 .Include(a => a.Address)
                 .Include(a => a.Batch)
-                .ToListAsync();
+                .ToListAsync() ?? new List<Applicants>(); // Ensure list is not null
 
             var barangays = applicants
-                .Select(a => a.Address.Barangay)
+                .Select(a => a.Address?.Barangay) // Use null-conditional operator to prevent null reference
+                .Where(b => b != null)
                 .Distinct()
                 .ToList();
 
-            var batches = await _context.Batches.ToListAsync();
+            var batches = await _context.Batches.ToListAsync() ?? new List<Batch>(); // Ensure list is not null
 
             var model = new DashboardViewModel
             {
@@ -42,6 +43,7 @@ namespace tupadportal.Controllers
 
             return View(model);
         }
+
 
 
 
