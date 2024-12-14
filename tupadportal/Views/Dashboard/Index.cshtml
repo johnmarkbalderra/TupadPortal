@@ -1,4 +1,4 @@
-﻿@model tupadportal.ViewModels.DashboardViewModel
+@model tupadportal.ViewModels.DashboardViewModel
 
 <div class="row my-5">
     <div class="col-md-12 mx-auto rounded border p-5 shadow glass-effect">
@@ -49,7 +49,7 @@
                         <option value="all" selected>All Batches</option>
                         @foreach (var batch in Model.Batches)
                         {
-                            <option value="@batch.BatId" data-barangay="@batch.Address.Barangay">@batch.BatchName</option>
+                            <option value="@batch.BatId" data-barangay="@batch.Address?.Barangay">@batch.BatchName</option>
                         }
                     </select>
                 </div>
@@ -67,12 +67,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var barangay in Model.Barangays)
+                        @foreach (var barangay in Model.Barangays ?? new List<string>())
                         {
-                            @foreach (var batch in Model.Batches)
+                            @foreach (var batch in Model.Batches ?? new List<Batch>())
                             {
-                                var totalApplicants = Model.Applicants.Count(a => a.Address.Barangay == barangay && a.BatchId == batch.BatId);
-                                var approvedApplicants = Model.Applicants.Count(a => a.Address.Barangay == barangay && a.BatchId == batch.BatId && a.Approved);
+                                var totalApplicants = Model.Applicants?.Count(a => a.Address?.Barangay == barangay && a.BatchId == batch.BatId) ?? 0;
+                                var approvedApplicants = Model.Applicants?.Count(a => a.Address?.Barangay == barangay && a.BatchId == batch.BatId && a.Approved) ?? 0;
 
                                 if (totalApplicants > 0)
                                 {
@@ -85,6 +85,7 @@
                                 }
                             }
                         }
+
                     </tbody>
                 </table>
             </div>
